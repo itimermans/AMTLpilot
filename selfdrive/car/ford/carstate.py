@@ -49,7 +49,7 @@ class CarState(CarStateBase):
 
     # AMT : Read message from dbc and add it to CarState
     ret.accelerationCommand = cp.vl["Message_Acceleration_Command_Ford"]["Acceleration_Command_Ford__mps2"] 
-
+    
 
     # gas pedal
     ret.gas = cp.vl["EngVehicleSpThrottle"]["ApedPos_Pc_ActlArb"] / 100.
@@ -80,6 +80,8 @@ class CarState(CarStateBase):
     ret.cruiseState.nonAdaptive = cp.vl["Cluster_Info1_FD1"]["AccEnbl_B_RqDrv"] == 0
     ret.cruiseState.standstill = cp.vl["EngBrakeData"]["AccStopMde_D_Rq"] == 3
     ret.accFaulted = cp.vl["EngBrakeData"]["CcStat_D_Actl"] in (1, 2)
+    ## AMT : Debug : Add CcMde_D_Actl message, necessary for stop n go fix
+    ret.cruiseState.cruiseControlMode = cp.vl['EngBrakeData']['CcMde_D_Actl']
 
     if self.CP.flags & FordFlags.CANFD:
       ret.cruiseState.speedLimit = self.update_traffic_signals(cp_cam)
@@ -158,7 +160,7 @@ class CarState(CarStateBase):
       ("DesiredTorqBrk", 50),
       ("EngVehicleSpThrottle", 100),
       ("BrakeSnData_4", 50),
-      ("EngBrakeData", 10),
+      ("EngBrakeData", 50),## AMT 10 to 50
       ("Cluster_Info1_FD1", 10),
       ("SteeringPinion_Data", 100),
       ("EPAS_INFO", 50),

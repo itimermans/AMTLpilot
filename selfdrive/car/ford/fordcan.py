@@ -338,3 +338,17 @@ def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume
     "TjaButtnOnOffPress": 1 if tja_toggle else 0,   # LCA/TJA toggle button
   })
   return packer.make_can_msg("Steering_Data_FD1", bus, values)
+
+
+## AMT : Debug : add modifier of "EngBrakeData" message
+def create_EngBrakeData_msg(packer, CAN: CanBus,cruiseControlMode: int):
+
+  #print("create_EngBrakeData_msg acting")
+
+  values = {
+    "AccStopMde_D_Rq" : 0,
+    # "CcMde_D_Actl" : 1 if cruiseControlMode == 0 else cruiseControlMode,
+    "CcMde_D_Actl" : 1
+  }
+  
+  return packer.make_can_msg("EngBrakeData", CAN.camera, values)

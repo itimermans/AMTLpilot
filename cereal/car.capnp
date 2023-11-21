@@ -280,6 +280,9 @@ struct CarState {
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
     speedLimit @7 :Float32;
+    
+    # AMT : Debug : Add cruiseControlMode for stop n goe
+    cruiseControlMode @8 :Int16;
   }
 
   enum GearShifter {

@@ -20,7 +20,9 @@ class CarControllerParams:
   LKAS_UI_STEP = 100    # IPMA_Data, 1Hz
   ACC_UI_STEP = 20      # ACCDATA_3, 5Hz
   BUTTONS_STEP = 5      # Steering_Data_FD1, 10Hz, but send twice as fast
-
+  ## AMT : Debug : Add EngBrakeData step (100/10 = 10)
+  ENGBRAKEDATA_STEP = 2
+  
   CURVATURE_MAX = 0.02  # Max curvature for steering command, m^-1
   STEER_DRIVER_ALLOWANCE = 1.0  # Driver intervention threshold, Nm
 
