@@ -77,6 +77,11 @@ class CarState(CarStateBase):
       cp.vl["WHL_SPD11"]["WHL_SPD_RL"],
       cp.vl["WHL_SPD11"]["WHL_SPD_RR"],
     )
+
+    # AMT : Read message from dbc and add it to CarState
+    ret.accelerationCommand = cp.vl["Message_Acceleration_Command_HyundaiFD"]["Acceleration_Command_HyundaiFD__mps2"] 
+
+
     ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = ret.wheelSpeeds.fl <= STANDSTILL_THRESHOLD and ret.wheelSpeeds.rr <= STANDSTILL_THRESHOLD
@@ -342,6 +347,7 @@ class CarState(CarStateBase):
       ("CRUISE_BUTTONS_ALT", 50),
       ("BLINKERS", 4),
       ("DOORS_SEATBELTS", 4),
+      ("Message_Acceleration_Command_HyundaiFD", 50)  # AMT : Adding info on accel message. Number indicates Hz expected
     ]
 
     if CP.flags & HyundaiFlags.EV:

@@ -36,6 +36,11 @@ cdef class CANParser:
     self.vl_all = {}
     self.ts_nanos = {}
 
+    # AMT : maybe message could be added here to avoid having to add them in every single carstate...BUT filtering for just bus == 0
+    # Have to look if there's a common base DBC...or if it can be added here as well
+    #if bus == 0:
+    #  messages += ("Acceleration_Command", 50)
+
     # Convert message names into addresses and check existence in DBC
     cdef vector[pair[uint32_t, int]] message_v
     for i in range(len(messages)):
