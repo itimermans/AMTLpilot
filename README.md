@@ -9,7 +9,7 @@ Preliminary decisions (TODO):
 * [X] Add branch "master-ci" from openpilot
   Did:
   git push -u origin master-ci
-* [ ] Branches to create:
-  * [ ] ForcedOverride
-  * [ ] Hybrid
-* [ ] Decide what will "main" be
+* [X] Branches to create:
+  * [X] ForcedOverride
+  * [X] Hybrid
+* [X] Decide what will "main" be: For now, overall updates on the project
