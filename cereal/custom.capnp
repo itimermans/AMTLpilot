@@ -8,7 +8,11 @@ $Cxx.namespace("cereal");
 # cereal, so use these if you want custom events in your fork.
 
 # you can rename the struct, but don't change the identifier
-struct CustomReserved0 @0x81c2f05a394cf4af {
+# AMT : Change CustomReserved0 name
+#struct CustomReserved0 @0x81c2f05a394cf4af {
+#}
+struct CustomOverride @0x81c2f05a394cf4af {
+    accelerationCommand_CustomOverride @0 :Float32
 }
 
 struct CustomReserved1 @0xaedffd8f31e7b55d {
