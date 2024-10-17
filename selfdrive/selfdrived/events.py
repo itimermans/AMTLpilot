@@ -320,10 +320,15 @@ def wrong_car_mode_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubM
 
 
 def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int, personality) -> Alert:
-  gb = sm['carControl'].actuators.accel / 4.
-  steer = sm['carControl'].actuators.steer
-  vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
-  return NormalPermanentAlert("Joystick Mode", vals)
+  # AMT : Modify joystick_alert to see values
+  # gb = sm['carControl'].actuators.accel / 4.
+  # steer = sm['carControl'].actuators.steer
+  # vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
+  val_accelerationCommand = CS.accelerationCommand
+  val_vEgo = CS.vEgo
+  val_aEgo = CS.aEgo
+  vals = f"Speed: {round(val_vEgo,3):.3f} m/s Command: {round(val_accelerationCommand,3):.3f} m/s2 Accel est: {round(val_aEgo,3):.3f}"
+  return NormalPermanentAlert("Override Mode", vals)
 
 
 def longitudinal_maneuver_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int, personality) -> Alert:
