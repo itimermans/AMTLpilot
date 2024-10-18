@@ -210,6 +210,10 @@ class CarState(CarStateBase):
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_3"],
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_4"],
     )
+
+    # AMT : Read message from dbc and add it to CarState
+    ret.accelerationCommand = cp.vl["Message_Acceleration_Command_HyundaiFD"]["Acceleration_Command_HyundaiFD__mps2"] 
+    
     ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = ret.wheelSpeeds.fl <= STANDSTILL_THRESHOLD and ret.wheelSpeeds.rr <= STANDSTILL_THRESHOLD
