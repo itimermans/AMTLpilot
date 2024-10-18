@@ -2545,7 +2545,7 @@ struct Event {
 
     # *********** Custom: reserved for forks ***********
     # AMT : Correcting this: Should be like whats defined in cusom.capnp
-    CustomOverride @107 :Custom.CustomOverride;
+    customReserved0 @107 :Custom.CustomReserved0;
     customReserved1 @108 :Custom.CustomReserved1;
     customReserved2 @109 :Custom.CustomReserved2;
     customReserved3 @110 :Custom.CustomReserved3;

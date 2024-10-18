@@ -9,10 +9,11 @@ $Cxx.namespace("cereal");
 
 # you can rename the struct, but don't change the identifier
 # AMT : Change CustomReserved0 name
-#struct CustomReserved0 @0x81c2f05a394cf4af {
+#struct CustomOverride @0x81c2f05a394cf4af {
+#    accelerationCommand_CustomOverride @0 :Float32;
 #}
-struct CustomOverride @0x81c2f05a394cf4af {
-    accelerationCommand_CustomOverride @0 :Float32;
+
+struct CustomReserved0 @0x81c2f05a394cf4af {
 }
 
 struct CustomReserved1 @0xaedffd8f31e7b55d {
