@@ -324,7 +324,7 @@ def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster,
   # gb = sm['carControl'].actuators.accel / 4.
   # steer = sm['carControl'].actuators.steer
   # vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
-  val_accelerationCommand = CS.accelerationCommand
+  val_accelerationCommand = CS.accelerationCommand_CarState
   val_vEgo = CS.vEgo
   val_aEgo = CS.aEgo
   vals = f"Speed: {round(val_vEgo,3):.3f} m/s Command: {round(val_accelerationCommand,3):.3f} m/s2 Accel est: {round(val_aEgo,3):.3f}"

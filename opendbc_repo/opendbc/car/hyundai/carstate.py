@@ -79,7 +79,7 @@ class CarState(CarStateBase):
     )
 
     # AMT : Read message from dbc and add it to CarState
-    ret.accelerationCommand = cp.vl["Message_Acceleration_Command_HyundaiFD"]["Acceleration_Command_HyundaiFD__mps2"] 
+    ret.accelerationCommand_CarState = cp.vl["Message_Acceleration_Command_HyundaiFD"]["Acceleration_Command_HyundaiFD__mps2"] 
 
 
     ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
