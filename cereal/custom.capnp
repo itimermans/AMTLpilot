@@ -12,7 +12,7 @@ $Cxx.namespace("cereal");
 #struct CustomReserved0 @0x81c2f05a394cf4af {
 #}
 struct CustomOverride @0x81c2f05a394cf4af {
-    accelerationCommand_CustomOverride @0 :Float32
+    accelerationCommand_CustomOverride @0 :Float32;
 }
 
 struct CustomReserved1 @0xaedffd8f31e7b55d {
