@@ -35,9 +35,16 @@ def joystickd_thread():
     actuators = CC.actuators
     # AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes. Mods end in ##end
       # Fully commenting all this
+    # AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes. Mods end in ##end
+      # Fully commenting all this
     # reset joystick if it hasn't been received in a while
     # should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
+    # should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
 
+    # if not should_reset_joystick:
+    #   joystick_axes = sm['testJoystick'].axes
+    # else:
+    #   joystick_axes = [0.0, 0.0]
     # if not should_reset_joystick:
     #   joystick_axes = sm['testJoystick'].axes
     # else:
@@ -46,8 +53,12 @@ def joystickd_thread():
     if CC.longActive:
       #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
       actuators.accel = sm['carState'].accelerationCommand
+      #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
+      actuators.accel = sm['carState'].accelerationCommand
 
     if CC.latActive:
+      # max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
+      # max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
       # max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
       # max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
 
