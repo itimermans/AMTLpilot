@@ -355,9 +355,16 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
 
   # ********** events only containing alerts displayed in all states **********
 
+  # AMT : Modify alert to see values
+
+  # EventName.joystickDebug: {
+  #   ET.WARNING: joystick_alert,
+  #   ET.PERMANENT: NormalPermanentAlert("Joystick Mode"),
+  # },
+
   EventName.joystickDebug: {
     ET.WARNING: joystick_alert,
-    ET.PERMANENT: NormalPermanentAlert("Joystick Mode"),
+    ET.PERMANENT: joystick_alert,
   },
 
   EventName.longitudinalManeuver: {
