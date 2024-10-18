@@ -33,25 +33,28 @@ def joystickd_thread():
     CC.longActive = CC.enabled and not any(e.overrideLongitudinal for e in sm['onroadEvents']) and CP.openpilotLongitudinalControl
 
     actuators = CC.actuators
-
+    # AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes. Mods end in ##end
+      # Fully commenting all this
     # reset joystick if it hasn't been received in a while
-    should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
+    # should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
 
-    if not should_reset_joystick:
-      joystick_axes = sm['testJoystick'].axes
-    else:
-      joystick_axes = [0.0, 0.0]
+    # if not should_reset_joystick:
+    #   joystick_axes = sm['testJoystick'].axes
+    # else:
+    #   joystick_axes = [0.0, 0.0]
 
     if CC.longActive:
-      actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
+      #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
+      actuators.accel = sm['carState'].accelerationCommand
 
     if CC.latActive:
-      max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
-      max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
+      # max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
+      # max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
 
-      actuators.steer = clip(joystick_axes[1], -1, 1)
-      actuators.steeringAngleDeg, actuators.curvature = actuators.steer * max_angle, actuators.steer * -max_curvature
-
+      # actuators.steer = clip(joystick_axes[1], -1, 1)
+      # actuators.steeringAngleDeg, actuators.curvature = actuators.steer * max_angle, actuators.steer * -max_curvature
+      actuators.steer = 0.0   # Caution: CC.latActive == True and actuators.steer = 0.0 doesn't imply NOT lateral override...we are forcing steering to 0. 
+    ##end
     pm.send('carControl', cc_msg)
 
     cs_msg = messaging.new_message('controlsState')
