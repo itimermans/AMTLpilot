@@ -31,10 +31,12 @@ def dmonitoringd_thread():
     # Get interaction
     if sm.updated['carState']:
       v_cruise = sm['carState'].cruiseState.speed
-      driver_engaged = len(sm['carState'].buttonEvents) > 0 or \
-                        v_cruise != v_cruise_last or \
-                        sm['carState'].steeringPressed or \
-                        sm['carState'].gasPressed
+      ## ITL : driver_engaged forced to True all the time
+      driver_engaged = True
+    #   driver_engaged = len(sm['carState'].buttonEvents) > 0 or \
+    #                     v_cruise != v_cruise_last or \
+    #                     sm['carState'].steeringPressed or \
+    #                     sm['carState'].gasPressed
       v_cruise_last = v_cruise
 
     if sm.updated['modelV2']:
@@ -51,7 +53,8 @@ def dmonitoringd_thread():
        driver_status.terminal_time >= driver_status.settings._MAX_TERMINAL_DURATION or \
        driver_status.always_on and driver_status.awareness <= driver_status.threshold_prompt:
       events.add(car.CarEvent.EventName.tooDistracted)
-
+    ## ITL : driver_engaged forced to True all the time
+    driver_engaged = True
     # Update events from driver state
     driver_status.update_events(events, driver_engaged, sm['controlsState'].enabled,
       sm['carState'].standstill, sm['carState'].gearShifter in [car.CarState.GearShifter.reverse, car.CarState.GearShifter.park], sm['carState'].vEgo)

@@ -166,6 +166,14 @@ class CarController(CarControllerBase):
     if self.CP.carFingerprint in (HONDA_BOSCH - HONDA_BOSCH_RADARLESS) and self.CP.openpilotLongitudinalControl:
       if self.frame % 10 == 0:
         can_sends.append((0x18DAB0F1, 0, b"\x02\x3E\x80\x00\x00\x00\x00\x00", 1))
+    ## ITL : Look at this syntax... maybe can send additional messages... vEgo and aEgo
+    
+    ## ITL : Transmit vEgo and aEgo through CAN
+    # if self.frame % 10 == 0:
+    #   bytes_scaled_vEgo = int(1000 * CS.out.vEgo).to_bytes(4, byteorder='big',signed=True)
+    #   can_sends.append((0x199, 0, bytes_scaled_vEgo, 1))
+
+
 
     # Send steering command.
     can_sends.append(hondacan.create_steering_control(self.packer, self.CAN, apply_steer, CC.latActive, self.CP.carFingerprint,

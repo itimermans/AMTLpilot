@@ -195,6 +195,10 @@ class CarState(CarStateBase):
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_3"],
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_4"],
     )
+
+    ## ITL :: Adding: read cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+    ret.accelerationCommand = cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+
     ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = ret.wheelSpeeds.fl <= STANDSTILL_THRESHOLD and ret.wheelSpeeds.rr <= STANDSTILL_THRESHOLD
@@ -266,7 +270,7 @@ class CarState(CarStateBase):
       ("CGW2", 5),
       ("CGW4", 5),
       ("WHL_SPD11", 50),
-      ("SAS11", 100),
+      ("SAS11", 100)
     ]
 
     if not CP.openpilotLongitudinalControl and CP.carFingerprint not in CAMERA_SCC_CAR:
@@ -330,6 +334,7 @@ class CarState(CarStateBase):
       ("CRUISE_BUTTONS_ALT", 50),
       ("BLINKERS", 4),
       ("DOORS_SEATBELTS", 4),
+      ("Comma_Override_Command", 50)    ## ITL: Adding Comma_Override_Command here
     ]
 
     if CP.flags & HyundaiFlags.EV:

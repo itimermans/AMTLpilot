@@ -25,7 +25,8 @@ def get_can_messages(CP, gearbox_msg):
     ("CAR_SPEED", 10),
     ("VSA_STATUS", 50),
     ("STEER_STATUS", 100),
-    ("STEER_MOTOR_TORQUE", 0),  # TODO: not on every car
+    ("STEER_MOTOR_TORQUE", 0),  # TODO: not on every car,
+    ("Comma_Override_Command", 50)    ## ITL: Adding Comma_Override_Command here
   ]
 
   if CP.carFingerprint == CAR.HONDA_ODYSSEY_CHN:
@@ -161,6 +162,11 @@ class CarState(CarStateBase):
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_RL"],
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_RR"],
     )
+
+    ## ITL :: Adding: read cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+    ret.accelerationCommand = cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+    
+
     v_wheel = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.0
 
     # blend in transmission speed at low speed, since it has more low speed accuracy

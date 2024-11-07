@@ -91,26 +91,28 @@ def joystick_thread(joystick):
     joystick.update()
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description='Publishes events from your joystick to control your car.\n' +
-                                               'openpilot must be offroad before starting joysticked.',
-                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-  parser.add_argument('--keyboard', action='store_true', help='Use your keyboard instead of a joystick')
-  parser.add_argument('--gamepad', action='store_true', help='Use gamepad configuration instead of joystick')
-  args = parser.parse_args()
+## ITL
+#   parser = argparse.ArgumentParser(description='Publishes events from your joystick to control your car.\n' +
+#                                                'openpilot must be offroad before starting joysticked.',
+#                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+#   parser.add_argument('--keyboard', action='store_true', help='Use your keyboard instead of a joystick')
+#   parser.add_argument('--gamepad', action='store_true', help='Use gamepad configuration instead of joystick')
+#   args = parser.parse_args()
 
   if not Params().get_bool("IsOffroad") and "ZMQ" not in os.environ:
     print("The car must be off before running joystickd.")
     exit()
-
-  print()
-  if args.keyboard:
-    print('Gas/brake control: `W` and `S` keys')
-    print('Steering control: `A` and `D` keys')
-    print('Buttons')
-    print('- `R`: Resets axes')
-    print('- `C`: Cancel cruise control')
-  else:
-    print('Using joystick, make sure to run cereal/messaging/bridge on your device if running over the network!')
-
-  joystick = Keyboard() if args.keyboard else Joystick(args.gamepad)
+## ITL
+#   print()
+#   if args.keyboard:
+#     print('Gas/brake control: `W` and `S` keys')
+#     print('Steering control: `A` and `D` keys')
+#     print('Buttons')
+#     print('- `R`: Resets axes')
+#     print('- `C`: Cancel cruise control')
+#  else:
+    # print('Using joystick, make sure to run cereal/messaging/bridge on your device if running over the network!')
+  ## ITL : Keyboard by default, no need to pass argument
+  # joystick = Keyboard() if args.keyboard else Joystick(args.gamepad)
+  joystick = Keyboard()
   joystick_thread(joystick)

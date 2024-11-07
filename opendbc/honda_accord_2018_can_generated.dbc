@@ -468,6 +468,10 @@ BO_ 330 STEERING_SENSORS: 8 EPS
 
 CM_ "honda_accord_2018_can.dbc starts here";
 
+BO_ 153 Comma_Override_Command: 2 XXX
+ SG_ Accel_Command_mps : 7|16@0- (0.001,0) [-32.768|32.767] "m/s2" XXX
+
+
 BO_ 401 GEARBOX_15T: 8 PCM
  SG_ GEAR_SHIFTER : 5|6@0+ (1,0) [0|63] "" EON
  SG_ BOH : 45|6@0+ (1,0) [0|63] "" XXX

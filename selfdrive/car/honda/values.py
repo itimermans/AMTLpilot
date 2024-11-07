@@ -31,10 +31,18 @@ class CarControllerParams:
   NIDEC_BRAKE_MAX = 1024 // 4
 
   BOSCH_ACCEL_MIN = -3.5  # m/s^2
-  BOSCH_ACCEL_MAX = 2.0  # m/s^2
+  ## ITL: Modify Max?
+  ## BOSCH_ACCEL_MAX = 2.0  # m/s^2
+  BOSCH_ACCEL_MAX = 3.0  # m/s^2
 
-  BOSCH_GAS_LOOKUP_BP = [-0.2, 2.0]  # 2m/s^2
-  BOSCH_GAS_LOOKUP_V = [0, 1600]
+  
+  ## ITL: New parameters
+  # Old ones: 
+  # BOSCH_GAS_LOOKUP_BP = [-0.2, 2.0]  # 2m/s^2
+  # BOSCH_GAS_LOOKUP_V = [0, 1600]
+
+  BOSCH_GAS_LOOKUP_BP = [-0.0938, 3.0]  # 2m/s^2
+  BOSCH_GAS_LOOKUP_V = [0, 1709.61]
 
   def __init__(self, CP):
     self.STEER_MAX = CP.lateralParams.torqueBP[-1]
