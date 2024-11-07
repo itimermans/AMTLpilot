@@ -671,7 +671,9 @@ class Controls:
         actuators.curvature = self.desired_curvature
     else:
       lac_log = log.ControlsState.LateralDebugState.new_message()
-      if self.sm.recv_frame['testJoystick'] > 0:
+      ## ITL : Force Joystick Mode
+      if True:
+      # if self.sm.recv_frame['testJoystick'] > 0:
         # reset joystick if it hasn't been received in a while
         ## ITL : Cancelling should_reset_joystick process. Always 0
         # should_reset_joystick = (self.sm.frame - self.sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
@@ -939,8 +941,9 @@ class Controls:
       self.experimental_mode = self.params.get_bool("ExperimentalMode") and (self.CP.openpilotLongitudinalControl or
                                                                              (not self.CP.pcmCruiseSpeed and self.custom_stock_planner_speed))
       self.personality = self.read_personality_param()
-      if self.CP.notCar:
-        self.joystick_mode = self.params.get_bool("JoystickDebugMode")
+    ## ITL : Force Joystick Mode on
+      # self.joystick_mode = self.params.get_bool("JoystickDebugMode")
+      self.joystick_mode = True
 
       self.reverse_acc_change = self.params.get_bool("ReverseAccChange")
       self.dynamic_experimental_control = self.params.get_bool("DynamicExperimentalControl")
