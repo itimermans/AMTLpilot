@@ -339,10 +339,30 @@ def wrong_car_mode_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubM
 
 
 def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int) -> Alert:
-  axes = sm['testJoystick'].axes
-  gb, steer = list(axes)[:2] if len(axes) else (0., 0.)
-  vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
-  return NormalPermanentAlert("Joystick Mode", vals)
+  ## ITL : Comment out axes extraction
+  #   axes = sm['testJoystick'].axes
+  #   gb, steer = list(axes)[:2] if len(axes) else (0., 0.)
+  ## ITL :: add values to joystick mode alert
+  #itl_vEgoRaw = sm["carState"].vEgo
+  val_accelerationCommand = CS.accelerationCommand
+  val_vEgo = CS.vEgo
+  val_aEgo = CS.aEgo
+  ## LTI
+  vals = f"Speed: {round(val_vEgo,3):.3f} m/s  Command: {round(val_accelerationCommand,3):.3f} m/s2  Accel est: {round(val_aEgo,3):.3f} m/s2"
+  return NormalPermanentAlert("Override Mode: Active", vals)
+  ## ITL : Passive Joystick Alert
+
+def joystick_alert_off(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int) -> Alert:
+    ## ITL : Comment out axes extraction
+  #   axes = sm['testJoystick'].axes
+  #   gb, steer = list(axes)[:2] if len(axes) else (0., 0.)
+  ## ITL :: add values to joystick mode alert
+  #itl_vEgoRaw = sm["carState"].vEgo
+  val_accelerationCommand = CS.accelerationCommand
+  val_vEgo = CS.vEgo
+  val_aEgo = CS.aEgo
+  vals = f"Speed: {round(val_vEgo,3):.3f} m/s  Command: {round(val_accelerationCommand,3):.3f} m/s2  Accel est: {round(val_aEgo,3):.3f} m/s2"
+  return NormalPermanentAlert("Override Mode: Off", vals)
 
 def speed_limit_adjust_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int) -> Alert:
   speedLimit = sm['longitudinalPlanSP'].speedLimit
@@ -365,7 +385,7 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
 
   EventName.joystickDebug: {
     ET.WARNING: joystick_alert,
-    ET.PERMANENT: NormalPermanentAlert("Joystick Mode"),
+    ET.PERMANENT: joystick_alert_off,
   },
 
   EventName.controlsInitializing: {

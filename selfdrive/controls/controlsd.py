@@ -673,15 +673,20 @@ class Controls:
       lac_log = log.ControlsState.LateralDebugState.new_message()
       if self.sm.recv_frame['testJoystick'] > 0:
         # reset joystick if it hasn't been received in a while
-        should_reset_joystick = (self.sm.frame - self.sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
-        if not should_reset_joystick:
-          joystick_axes = self.sm['testJoystick'].axes
-        else:
-          joystick_axes = [0.0, 0.0]
+        ## ITL : Cancelling should_reset_joystick process. Always 0
+        # should_reset_joystick = (self.sm.frame - self.sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
+        # if not should_reset_joystick:
+        #   joystick_axes = self.sm['testJoystick'].axes
+        # else:
+        #   joystick_axes = [0.0, 0.0]
+        joystick_axes = [0.0, 0.0]
+        
+        ## ITL :: key place: joystick values replace accel
 
         if CC.longActive:
-          actuators.accel = 4.0*clip(joystick_axes[0], -1, 1)
-
+          val_accelerationCommand = CS.accelerationCommand
+          # actuators.accel = 1.0*clip(joystick_axes[0], -1, 1)
+          actuators.accel = clip(val_accelerationCommand, -3, 3)
         if CC.latActive:
           steer = clip(joystick_axes[1], -1, 1)
           # max angle is 45 for angle-based cars, max curvature is 0.02
@@ -756,8 +761,9 @@ class Controls:
 
     CC.cruiseControl.override = self.enabled_long and not CC.longActive and self.CP.openpilotLongitudinalControl
     CC.cruiseControl.cancel = CS.cruiseState.enabled and (not self.enabled_long or (CS.brakePressed and (not self.CS_prev.brakePressed or not CS.standstill)))
-    if self.joystick_mode and self.sm.recv_frame['testJoystick'] > 0 and self.sm['testJoystick'].buttons[0]:
-      CC.cruiseControl.cancel = True
+    ## ITL : Commenting out these lines. Omly meant to cancel joystick mode when ssh'ing with ctrl+c
+    # if self.joystick_mode and self.sm.recv_frame['testJoystick'] > 0 and self.sm['testJoystick'].buttons[0]:
+    #   CC.cruiseControl.cancel = True
 
     speeds = self.sm['longitudinalPlan'].speeds
     if len(speeds):

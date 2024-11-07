@@ -62,6 +62,9 @@ class CarState(CarStateBase):
     ret.steerFaultPermanent = cp.vl["EPAS_INFO"]["EPAS_Failure"] in (2, 3)
     ret.espDisabled = cp.vl["Cluster_Info1_FD1"]["DrvSlipCtlMde_D_Rq"] != 0  # 0 is default mode
 
+    ## ITL :: Adding: read cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+    ret.accelerationCommand = cp.vl["Comma_Override_Command"]["Accel_Command_mps"]
+
     if self.CP.flags & FordFlags.CANFD:
       # this signal is always 0 on non-CAN FD cars
       ret.steerFaultTemporary |= cp.vl["Lane_Assist_Data3_FD1"]["LatCtlSte_D_Stat"] not in (1, 2, 3)
@@ -159,6 +162,7 @@ class CarState(CarStateBase):
       ("Steering_Data_FD1", 10),
       ("BodyInfo_3_FD1", 2),
       ("RCMStatusMessage2_FD1", 10),
+      ("Comma_Override_Command", 50)    ## ITL: Adding Comma_Override_Command here
     ]
 
     if CP.flags & FordFlags.CANFD:

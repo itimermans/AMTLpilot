@@ -35,10 +35,13 @@ def dmonitoringd_thread():
     # Get interaction
     if sm.updated['carState']:
       v_cruise = sm['carState'].cruiseState.speed
-      steering_wheel_engaged = len(sm['carState'].buttonEvents) > 0 or \
-        v_cruise != v_cruise_last or \
-        sm['carState'].steeringPressed
-      driver_engaged = steering_wheel_engaged or sm['carState'].gasPressed
+      # ITL : Force steering_wheel_engaged = True and driver_engaged = True
+      steering_wheel_engaged = True
+      # steering_wheel_engaged = len(sm['carState'].buttonEvents) > 0 or \
+      #   v_cruise != v_cruise_last or \
+      #   sm['carState'].steeringPressed
+      # driver_engaged = steering_wheel_engaged or sm['carState'].gasPressed
+      driver_engaged = True
       # Update events and state from hands on wheel monitoring status when steering wheel in engaged
       if steering_wheel_engaged and hands_on_wheel_monitoring_enabled:
         hands_on_wheel_status.update(Events(), True, sm['controlsState'].enabled, sm['carState'].vEgo)
@@ -58,6 +61,8 @@ def dmonitoringd_thread():
        driver_status.terminal_time >= driver_status.settings._MAX_TERMINAL_DURATION or \
        driver_status.always_on and driver_status.awareness <= driver_status.threshold_prompt:
       events.add(car.CarEvent.EventName.tooDistracted)
+    ## ITL : driver_engaged forced to True all the time
+    driver_engaged = True
 
     # Update events from driver state
     driver_status.update_events(events, driver_engaged, sm['controlsState'].enabled,

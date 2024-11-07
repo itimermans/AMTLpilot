@@ -1881,6 +1881,9 @@ BO_ 535 WheelSpeed: 8 ABS_ESC
  SG_ WhlFr_W_Meas : 22|15@0+ (0.01,0) [0|327.65] "rad/s"  VDM,IPMA_ADAS,GWM,ECM_Diesel,PCM,PCM_HEV,PSCM,TCCM,TCM_DSL
  SG_ WhlFl_W_Meas : 6|15@0+ (0.01,0) [0|327.65] "rad/s"  VDM,IPMA_ADAS,GWM,ECM_Diesel,PCM,PCM_HEV,PSCM,TCCM,TCM_DSL
 
+BO_ 153 Comma_Override_Command: 2 XXX
+ SG_ Accel_Command_mps : 7|16@0- (0.001,0) [-32.768|32.767] "m/s2" XXX
+
 BO_ 534 WheelData: 8 ABS_ESC
  SG_ BrkObdData_No_Actl : 63|8@0+ (1,0) [0|255] "unitless"  SOBDMC_HPCM_FD1,GWM
  SG_ BrkObdIndex_No_Actl : 53|6@0+ (1,0) [0|63] "unitless"  SOBDMC_HPCM_FD1,GWM
