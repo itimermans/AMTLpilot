@@ -45,6 +45,10 @@ class CarState(CarStateBase):
     ret.yawRate = cp.vl["Yaw_Data_FD1"]["VehYaw_W_Actl"]
     ret.standstill = cp.vl["DesiredTorqBrk"]["VehStop_D_Stat"] == 1
 
+    # AMT : Read message from dbc and add it to CarState
+    ret.accelerationCommand = cp.vl["Message_Acceleration_Command_Ford"]["Acceleration_Command_Ford__mps2"] 
+
+
     # gas pedal
     ret.gas = cp.vl["EngVehicleSpThrottle"]["ApedPos_Pc_ActlArb"] / 100.
     ret.gasPressed = ret.gas > 1e-6
@@ -159,6 +163,7 @@ class CarState(CarStateBase):
       ("Steering_Data_FD1", 10),
       ("BodyInfo_3_FD1", 2),
       ("RCMStatusMessage2_FD1", 10),
+      ("Message_Acceleration_Command_Ford",50) # AMT : Adding info on accel message. Number indicates Hz expected
     ]
 
     if CP.flags & FordFlags.CANFD:
