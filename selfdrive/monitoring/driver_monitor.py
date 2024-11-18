@@ -304,6 +304,12 @@ class DriverStatus():
       self.hi_stds = 0
 
   def update_events(self, events, driver_engaged, ctrl_active, standstill, wrong_gear, car_speed):
+
+    ## ITL : Force _reset_awareness() all the time
+    if True:
+        self._reset_awareness()
+        return
+
     always_on_valid = self.always_on and not wrong_gear
     if (driver_engaged and self.awareness > 0 and not self.active_monitoring_mode) or \
        (not always_on_valid and not ctrl_active) or \
