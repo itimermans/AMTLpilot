@@ -680,7 +680,10 @@ class Controls:
           joystick_axes = [0.0, 0.0]
 
         if CC.longActive:
-          actuators.accel = 4.0*clip(joystick_axes[0], -1, 1)
+          ## AMT : Key location
+          val_accelerationCommand = CS.accelerationCommand
+          # actuators.accel = 1.0*clip(joystick_axes[0], -1, 1)
+          actuators.accel = clip(val_accelerationCommand, -3, 3)
 
         if CC.latActive:
           steer = clip(joystick_axes[1], -1, 1)
