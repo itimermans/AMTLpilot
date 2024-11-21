@@ -218,8 +218,9 @@ class CarController:
         if model_data is not None and len(model_data.orientation.x) >= CONTROL_N:
           # compute curvature from model predicted orientation
           future_time = 0.2 + self.future_lookup_time # 0.2 + SteerActutatorDelay
-          predicted_curvature = interp(future_time, ModelConstants.T_IDXS, model_data.orientationRate.z) / vEgoRaw
-         
+          ## AMT : Correct this, causes inf when vEgoRaw (speed) is zero
+          # predicted_curvature = interp(future_time, ModelConstants.T_IDXS, model_data.orientationRate.z) / vEgoRaw
+          predicted_curvature = interp(future_time, ModelConstants.T_IDXS, model_data.orientationRate.z) / max(CS.out.vEgoRaw, 0.1)
           # build an array to hold future curvatures, to help with straight away detection
           curvatures = np.array(model_data.acceleration.y) / (CS.out.vEgo ** 2)
           # extract predicted curvature for 1.0 seconds, 2.0 seconds, and 3.0 seconds into the future
