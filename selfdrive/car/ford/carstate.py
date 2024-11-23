@@ -82,6 +82,7 @@ class CarState(CarStateBase):
     ret.accFaulted = cp.vl["EngBrakeData"]["CcStat_D_Actl"] in (1, 2)
     ## AMT : Debug : Add CcMde_D_Actl message, necessary for stop n go fix
     ret.cruiseState.cruiseControlMode = cp.vl['EngBrakeData']['CcMde_D_Actl']
+    #ret.cruiseControlMode = cp.vl['EngBrakeData']['CcMde_D_Actl']
 
     if self.CP.flags & FordFlags.CANFD:
       ret.cruiseState.speedLimit = self.update_traffic_signals(cp_cam)
@@ -160,7 +161,7 @@ class CarState(CarStateBase):
       ("DesiredTorqBrk", 50),
       ("EngVehicleSpThrottle", 100),
       ("BrakeSnData_4", 50),
-      ("EngBrakeData", 50),## AMT 10 to 50
+      ("EngBrakeData", 10),## AMT 10 to 50
       ("Cluster_Info1_FD1", 10),
       ("SteeringPinion_Data", 100),
       ("EPAS_INFO", 50),

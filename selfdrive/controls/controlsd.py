@@ -764,7 +764,9 @@ class Controls:
 
     speeds = self.sm['longitudinalPlan'].speeds
     if len(speeds):
-      CC.cruiseControl.resume = self.enabled_long and CS.cruiseState.standstill and speeds[-1] > 0.1
+      ## AMT : Simulate Resume button action when positive acceleration
+      # CC.cruiseControl.resume = self.enabled_long and CS.cruiseState.standstill and speeds[-1] > 0.1
+      CC.cruiseControl.resume = self.enabled_long and CS.cruiseState.standstill and CS.accelerationCommand > 0
     CC.vCruise = float(self.v_cruise_helper.v_cruise_kph)
 
     hudControl = CC.hudControl

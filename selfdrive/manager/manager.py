@@ -183,6 +183,9 @@ def manager_init() -> None:
   if not os.path.exists(models_dir):
     os.makedirs(models_dir)
 
+  ## AMT : Add imput joystick mode here
+  params.put_bool('JoystickDebugMode', True)
+
   # preimport all processes
   for p in managed_processes.values():
     p.prepare()
@@ -233,10 +236,15 @@ def manager_thread() -> None:
       params.clear_all(ParamKeyType.CLEAR_ON_ONROAD_TRANSITION)
     elif not started and started_prev:
       params.clear_all(ParamKeyType.CLEAR_ON_OFFROAD_TRANSITION)
+      ## AMT : Restart JoystickDebugMode to 1 after offroad transition
+      params.put_bool('JoystickDebugMode', True)
+
 
     # update onroad params, which drives boardd's safety setter thread
     if started != started_prev:
       write_onroad_params(started, params)
+
+    
 
     started_prev = started
 

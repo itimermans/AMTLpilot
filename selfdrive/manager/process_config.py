@@ -104,7 +104,7 @@ procs = [
   PythonProcess("webjoystick", "tools.bodyteleop.web", notcar),
 
   ## AMT : Try adding here Joystickmode
-  # PythonProcess("joystickd", "tools.joystick.joystickd", always_run),
+  PythonProcess("joystickd", "tools.joystick.joystickd", always_run),
 ]
 
 if Params().get_bool("SunnylinkEnabled"):

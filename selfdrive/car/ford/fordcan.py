@@ -341,14 +341,15 @@ def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume
 
 
 ## AMT : Debug : add modifier of "EngBrakeData" message
-def create_EngBrakeData_msg(packer, CAN: CanBus,cruiseControlMode: int):
+def create_EngBrakeData_msg(packer, CAN: CanBus, cruiseControlMode: int):
 
-  #print("create_EngBrakeData_msg acting")
+  print(CAN.camera)
 
   values = {
     "AccStopMde_D_Rq" : 0,
-    # "CcMde_D_Actl" : 1 if cruiseControlMode == 0 else cruiseControlMode,
+    #"CcMde_D_Actl" : 1 if cruiseControlMode == 0 else cruiseControlMode,
     "CcMde_D_Actl" : 1
   }
   
   return packer.make_can_msg("EngBrakeData", CAN.camera, values)
+

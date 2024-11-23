@@ -82,7 +82,7 @@ def send_thread(joystick):
     dat.testJoystick.buttons = [joystick.cancel]
     joystick_sock.send(dat.to_bytes())
     ## AMT : Comment out prints
-    #print('\n' + ', '.join(f'{name}: {round(v, 3)}' for name, v in joystick.axes_values.items()))
+    # print('\n' + ', '.join(f'{name}: {round(v, 3)}' for name, v in joystick.axes_values.items()))
     rk.keep_time()
 
 def joystick_thread(joystick):
@@ -121,4 +121,6 @@ if __name__ == '__main__':
   #   print('Using joystick, make sure to run cereal/messaging/bridge on your device if running over the network!')
 
   # joystick = Keyboard() if args.keyboard else Joystick(args.gamepad)
+
+  # joystick_thread(joystick)
   main()

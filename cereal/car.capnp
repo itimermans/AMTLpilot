@@ -188,6 +188,9 @@ struct CarState {
   # AMT : Add accelerationCommand_CarState
   accelerationCommand @58 :Float32;  
 
+  # AMT : Debug : Add accelerationCommand_CarState
+  cruiseControlMode @59 :Float32;  
+
   # gas pedal, 0.0-1.0
   gas @3 :Float32;        # this is user pedal only
   gasPressed @4 :Bool;    # this is user pedal only

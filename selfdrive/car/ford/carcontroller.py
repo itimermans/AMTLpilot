@@ -197,6 +197,7 @@ class CarController:
     elif CC.cruiseControl.resume and (self.frame % CarControllerParams.BUTTONS_STEP) == 0:
       can_sends.append(fordcan.create_button_msg(self.packer, self.CAN.camera, CS.buttons_stock_values, resume=True))
       can_sends.append(fordcan.create_button_msg(self.packer, self.CAN.main, CS.buttons_stock_values, resume=True))
+      print("Resuming")
     # if stock lane centering isn't off, send a button press to toggle it off
     # the stock system checks for steering pressed, and eventually disengages cruise control
     elif CS.acc_tja_status_stock_values["Tja_D_Stat"] != 0 and (self.frame % CarControllerParams.ACC_UI_STEP) == 0:
@@ -307,9 +308,9 @@ class CarController:
 
       can_sends.append(fordcan.create_acc_msg(self.packer, self.CAN, CC.longActive, gas, brake, stopping, brake_actuate, precharge_actuate, v_ego_kph=targetSpeed))
 
-    ## AMT : Debug : Modify EngBrakeData to avoid message indicating stop status
-    if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ENGBRAKEDATA_STEP) == 0:
-      can_sends.append(fordcan.create_EngBrakeData_msg(self.packer, self.CAN, CS.out.cruiseState.cruiseControlMode))
+    # ## AMT : Debug : Modify EngBrakeData to avoid message indicating stop status
+    # if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ENGBRAKEDATA_STEP) == 0:
+    #   can_sends.append(fordcan.create_EngBrakeData_msg(self.packer, self.CAN, CS.out.cruiseState.cruiseControlMode))
       
 
     ### ui ###
