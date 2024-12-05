@@ -348,8 +348,8 @@ def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster,
   val_vEgo = CS.vEgo
   val_aEgo = CS.aEgo
   ## LTI
-  # vals = f"Speed: {round(val_vEgo,3):.3f} m/s  Command: {round(val_accelerationCommand,3):.3f} m/s2  Accel est: {round(val_aEgo,3):.3f} m/s2"
-  vals = f"Standstill: {CS.standstill}   CruiseState Standstill: {CS.cruiseState.standstill}"
+  vals = f"Speed: {round(val_vEgo,3):.3f} m/s  Command: {round(val_accelerationCommand,3):.3f} m/s2  Accel est: {round(val_aEgo,3):.3f} m/s2"
+  # vals = f"Standstill: {CS.standstill}   CruiseState Standstill: {CS.cruiseState.standstill}"
   return NormalPermanentAlert("Override Mode: Active", vals)
 
 ## ITL : Passive Joystick Alert
