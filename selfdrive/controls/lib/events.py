@@ -657,16 +657,27 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
   },
 
   # Unused
+  ## AMT : Modify locationd errors 
+  # EventName.locationdTemporaryError: {
+  #   ET.NO_ENTRY: NoEntryAlert("locationd Temporary Error"),
+  #   ET.SOFT_DISABLE: soft_disable_alert("locationd Temporary Error"),
+  # },
+
+  # EventName.locationdPermanentError: {
+  #   ET.NO_ENTRY: NoEntryAlert("locationd Permanent Error"),
+  #   ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("locationd Permanent Error"),
+  #   ET.PERMANENT: NormalPermanentAlert("locationd Permanent Error"),
+  # },
 
   EventName.locationdTemporaryError: {
-    ET.NO_ENTRY: NoEntryAlert("locationd Temporary Error"),
-    ET.SOFT_DISABLE: soft_disable_alert("locationd Temporary Error"),
+    # ET.NO_ENTRY: NoEntryAlert("locationd Temporary Error"),
+    # ET.SOFT_DISABLE: soft_disable_alert("locationd Temporary Error"),
   },
 
   EventName.locationdPermanentError: {
-    ET.NO_ENTRY: NoEntryAlert("locationd Permanent Error"),
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("locationd Permanent Error"),
-    ET.PERMANENT: NormalPermanentAlert("locationd Permanent Error"),
+    # ET.NO_ENTRY: NoEntryAlert("locationd Permanent Error"),
+    # ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("locationd Permanent Error"),
+    # ET.PERMANENT: NormalPermanentAlert("locationd Permanent Error"),
   },
 
   # openpilot tries to learn certain parameters about your car by observing
@@ -916,10 +927,15 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
     ET.SOFT_DISABLE: soft_disable_alert("Device Remount Detected: Recalibrating"),
     ET.NO_ENTRY: NoEntryAlert("Remount Detected: Recalibrating"),
   },
+  ## AMT : Modify doorOpen Event so that it doesnt disengage
+  # EventName.doorOpen: {
+  #   ET.SOFT_DISABLE: user_soft_disable_alert("Door Open"),
+  #   ET.NO_ENTRY: NoEntryAlert("Door Open"),
+  # },
 
   EventName.doorOpen: {
-    ET.SOFT_DISABLE: user_soft_disable_alert("Door Open"),
-    ET.NO_ENTRY: NoEntryAlert("Door Open"),
+    # ET.SOFT_DISABLE: user_soft_disable_alert("Door Open"),
+    # ET.NO_ENTRY: NoEntryAlert("Door Open"),
   },
 
   EventName.seatbeltNotLatched: {
