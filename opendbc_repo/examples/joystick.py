@@ -23,7 +23,7 @@ class Keyboard:
 
   def update(self):
     key = self.kb.getch().lower()
-    print(key)
+    # print(key)
     self.cancel = False
     if key == 'r':
       self.axes_values = {ax: 0. for ax in self.axes_values}

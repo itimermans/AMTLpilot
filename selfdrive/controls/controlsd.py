@@ -138,9 +138,13 @@ class Controls:
 
     CC.cruiseControl.override = CC.enabled and not CC.longActive and self.CP.openpilotLongitudinalControl
     CC.cruiseControl.cancel = CS.cruiseState.enabled and (not CC.enabled or not self.CP.pcmCruise)
+    # AMT Debug
+    CC.cruiseControl.resume = CC.enabled and CS.cruiseState.standstill and CS.accelerationCommand > 0.01
+    print(CC.cruiseControl.resume)
 
     speeds = self.sm['longitudinalPlan'].speeds
     if len(speeds):
+      # AMT Debug
       # CC.cruiseControl.resume = CC.enabled and CS.cruiseState.standstill and speeds[-1] > 0.1
       CC.cruiseControl.resume = CC.enabled and CS.cruiseState.standstill and CS.accelerationCommand > 0.01
 
