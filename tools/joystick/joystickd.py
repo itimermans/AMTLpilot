@@ -44,6 +44,8 @@ def joystickd_thread():
     # else:
     #   joystick_axes = [0.0, 0.0]
 
+    print(sm['carState'].steerFaultTemporary,"    ",CC.cruiseControl.resume)
+
 
     if CC.longActive:
       #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
