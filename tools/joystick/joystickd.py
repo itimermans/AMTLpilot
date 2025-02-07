@@ -31,7 +31,7 @@ def joystickd_thread():
     CC.enabled = sm['selfdriveState'].enabled
     CC.latActive = sm['selfdriveState'].active and not sm['carState'].steerFaultTemporary and not sm['carState'].steerFaultPermanent
     CC.longActive = CC.enabled and not any(e.overrideLongitudinal for e in sm['onroadEvents']) and CP.openpilotLongitudinalControl
-
+    CC.cruiseControl.resume = CC.enabled and sm['carState'].standstill and sm['carState'].accelerationCommand > 0.01
     actuators = CC.actuators
     # AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes. Mods end in ##end
       # Fully commenting all this
