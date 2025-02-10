@@ -44,7 +44,6 @@ def joystickd_thread():
     # else:
     #   joystick_axes = [0.0, 0.0]
 
-    print(sm['carState'].standstill,"    ",CC.cruiseControl.resume)
 
 
     if CC.longActive:
