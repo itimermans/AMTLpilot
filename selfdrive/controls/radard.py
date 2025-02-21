@@ -198,6 +198,10 @@ class RadarD:
 
     self.ready = False
 
+    # AMT : Argopilot : KalmanMod :  KF on the injected vLead, mirrors Track's filter
+    self.argo_kf = None
+
+
   def update(self, sm: messaging.SubMaster, rr: car.RadarData):
     self.ready = sm.seen['modelV2']
     self.current_time = 1e-9*max(sm.logMonoTime.values())
@@ -245,6 +249,22 @@ class RadarD:
     # AMT : Argopilot
     # ---- ArgoPilot synthetic lead (dyno only). dRel == 0 means "no lead". ----
     cs = sm['carState']
+
+    # AMT : Argopilot : KalmanMod : derive vLeadK / aLeadK from the injected vLead, as Track.update() does ---
+    if cs.argoLeadDRel > 0.1:
+      _v = float(cs.argoLeadVLead)
+      if self.argo_kf is None:
+        self.argo_kf = KF1D([[_v], [0.0]], self.kalman_params.A, self.kalman_params.C, self.kalman_params.K)
+      else:
+        self.argo_kf.update(_v)
+      argo_v_k = float(self.argo_kf.x[SPEED][0])
+      argo_a_k = float(self.argo_kf.x[ACCEL][0])
+    else:
+      self.argo_kf = None
+      argo_v_k = 0.0
+      argo_a_k = 0.0
+
+
     if cs.argoLeadDRel > 0.1:
       v_lead = float(cs.argoLeadVLead)
       self.radar_state.leadOne = {
@@ -252,8 +272,8 @@ class RadarD:
         "yRel":         0.0,
         "vRel":         v_lead - self.v_ego,
         "vLead":        v_lead,
-        "vLeadK":       v_lead,
-        "aLeadK":       float(cs.argoLeadALead),
+        "vLeadK":       argo_v_k, # v_lead
+        "aLeadK":       argo_a_k, # float(cs.argoLeadALead)
         "aLeadTau":     0.3,
         "modelProb":    1.0,
         "status":       True,
