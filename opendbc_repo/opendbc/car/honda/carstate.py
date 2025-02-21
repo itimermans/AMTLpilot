@@ -19,7 +19,7 @@ BUTTONS_DICT = {CruiseButtons.RES_ACCEL: ButtonType.accelCruise, CruiseButtons.D
 SETTINGS_BUTTONS_DICT = {CruiseSettings.DISTANCE: ButtonType.gapAdjustCruise, CruiseSettings.LKAS: ButtonType.lkas}
 
 # AMT : ArgoPilot: CAN bus the dyno lead injector transmits on. 0, 1 or 2.
-ARGO_LEAD_BUS = 0
+ARGO_LEAD_BUS = 1
 
 
 def get_can_messages(CP, gearbox_msg):

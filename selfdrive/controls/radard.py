@@ -257,8 +257,15 @@ class RadarD:
         "modelProb":    1.0,
         "status":       True,
         "radar":        False,
-        "radarTrackId": -1,
+        "radarTrackId": -2,
       }
+
+    # AMT : Argopilot : To test
+    # if True:
+    #   self.radar_state.leadOne = {"dRel": 40.0, "yRel": 0.0, "vRel": -5.0, "vLead": 10.0,
+    #                               "vLeadK": 10.0, "aLeadK": 0.0, "aLeadTau": 0.3,
+    #                               "modelProb": 1.0, "status": True, "radar": False, "radarTrackId": -1}
+
 
   def publish(self, pm: messaging.PubMaster):
     assert self.radar_state is not None
