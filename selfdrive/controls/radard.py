@@ -282,6 +282,7 @@ class RadarD:
         "radar":        False,
         "radarTrackId": -2,
       }
+      self.radar_state.leadTwo = {"status": False}   # AMT : dyno — suppress the vision second lead
 
     # AMT : Argopilot : To test
     # if True:
