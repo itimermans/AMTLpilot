@@ -253,36 +253,30 @@ class RadarD:
     cs = sm['carState']
 
     # AMT : Argopilot : KalmanMod : derive vLeadK / aLeadK from the injected vLead, as Track.update() does ---
-    if cs.argoLeadDRel > 0.1:
-      _v = float(cs.argoLeadVLead)
-      if self.argo_kf is None:
-        self.argo_kf = KF1D([[_v], [0.0]], self.kalman_params.A, self.kalman_params.C, self.kalman_params.K)
-      else:
-        self.argo_kf.update(_v)
-      argo_v_k = float(self.argo_kf.x[SPEED][0])
-      argo_a_k = float(self.argo_kf.x[ACCEL][0])
+
+    _v = float(cs.argoLeadVLead)
+    if self.argo_kf is None:
+      self.argo_kf = KF1D([[_v], [0.0]], self.kalman_params.A, self.kalman_params.C, self.kalman_params.K)
     else:
-      self.argo_kf = None
-      argo_v_k = 0.0
-      argo_a_k = 0.0
+      self.argo_kf.update(_v)
+    argo_v_k = float(self.argo_kf.x[SPEED][0])
+    argo_a_k = float(self.argo_kf.x[ACCEL][0])
 
 
-    if cs.argoLeadDRel > 0.1:
-      v_lead = float(cs.argoLeadVLead)
-      self.radar_state.leadOne = {
-        "dRel":         float(cs.argoLeadDRel),
-        "yRel":         0.0,
-        "vRel":         v_lead - self.v_ego,
-        "vLead":        v_lead,
-        "vLeadK":       argo_v_k if self.argo_kf_enabled else v_lead, # v_lead
-        "aLeadK":       argo_a_k if self.argo_kf_enabled else float(cs.argoLeadALead), # float(cs.argoLeadALead)
-        "aLeadTau":     0.3,
-        "modelProb":    1.0,
-        "status":       True,
-        "radar":        False,
-        "radarTrackId": -2,
-      }
-      self.radar_state.leadTwo = {"status": False}   # AMT : dyno — suppress the vision second lead
+    self.radar_state.leadOne = {
+      "dRel":         float(cs.argoLeadDRel),
+      "yRel":         0.0,
+      "vRel":         v_lead - self.v_ego,
+      "vLead":        v_lead,
+      "vLeadK":       argo_v_k if self.argo_kf_enabled else v_lead, # v_lead
+      "aLeadK":       argo_a_k if self.argo_kf_enabled else float(cs.argoLeadALead), # float(cs.argoLeadALead)
+      "aLeadTau":     0.3,
+      "modelProb":    1.0,
+      "status":       True,
+      "radar":        False,
+      "radarTrackId": -2,
+    }
+    self.radar_state.leadTwo = {"status": False}   # AMT : dyno — suppress the vision second lead
 
     # AMT : Argopilot : To test
     # if True:
