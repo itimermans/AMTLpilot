@@ -332,7 +332,7 @@ class CarState(CarStateBase):
 
     # The two messages:
     parsers[Bus.alt] = CANParser(DBC[CP.carFingerprint][Bus.pt],
-                              [("ARGO_COMMAND", 50)],
+                              [("ARGO_COMMAND", 10)],
                               ARGO_LEAD_BUS)
 
 
