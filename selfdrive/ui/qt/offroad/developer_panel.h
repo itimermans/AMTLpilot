@@ -11,6 +11,7 @@ public:
 private:
   Params params;
   ParamControl* adbToggle;
+  ParamControl* argoKfToggle; // AMT : Argopilot : KalmanMod : Toggle For Kalman
   ParamControl* joystickToggle;
   ParamControl* longManeuverToggle;
   ParamControl* experimentalLongitudinalToggle;

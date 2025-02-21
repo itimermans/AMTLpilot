@@ -200,6 +200,8 @@ class RadarD:
 
     # AMT : Argopilot : KalmanMod :  KF on the injected vLead, mirrors Track's filter
     self.argo_kf = None
+    self.argo_kf_enabled = Params().get_bool("ArgoKalmanALead")
+
 
 
   def update(self, sm: messaging.SubMaster, rr: car.RadarData):
@@ -272,8 +274,8 @@ class RadarD:
         "yRel":         0.0,
         "vRel":         v_lead - self.v_ego,
         "vLead":        v_lead,
-        "vLeadK":       argo_v_k, # v_lead
-        "aLeadK":       argo_a_k, # float(cs.argoLeadALead)
+        "vLeadK":       argo_v_k if self.argo_kf_enabled else v_lead, # v_lead
+        "aLeadK":       argo_a_k if self.argo_kf_enabled else float(cs.argoLeadALead), # float(cs.argoLeadALead)
         "aLeadTau":     0.3,
         "modelProb":    1.0,
         "status":       True,

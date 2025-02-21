@@ -11,7 +11,13 @@ DeveloperPanel::DeveloperPanel(SettingsWindow *parent) : ListWidget(parent) {
   addItem(new SshToggle());
   addItem(new SshControl());
 
-  joystickToggle = new ParamControl("JoystickDebugMode", tr("Override Mode"), "", "");
+  argoKfToggle = new ParamControl("ArgoKalmanALead", tr("Derive Lead Accel (If OFF, reads input)"),
+          tr("Derive the synthetic lead's acceleration from the injected speed using openpilot's Kalman filter, "
+              "instead of taking it from the ARGO_ALEAD CAN signal. Dyno only."), "");
+  addItem(argoKfToggle);
+
+
+  joystickToggle = new ParamControl("JoystickDebugMode", tr("Accel Command Override (If OFF, Lead Override is active)"), "", "");
   QObject::connect(joystickToggle, &ParamControl::toggleFlipped, [=](bool state) {
     params.putBool("LongitudinalManeuverMode", false);
     longManeuverToggle->refresh();
