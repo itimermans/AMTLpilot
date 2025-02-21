@@ -232,7 +232,9 @@ class LocationEstimator:
     std_spike = (new_mean / old_mean) > 4.0 and new_mean > 7.0
 
     livePose.inputsOK = inputs_valid
-    livePose.posenetOK = not std_spike or self.car_speed <= 5.0
+    # AMT Argopilot : Comment this, set to True
+    # livePose.posenetOK = not std_spike or self.car_speed <= 5.0
+    livePose.posenetOK = True
     livePose.sensorsOK = sensors_valid
 
     return msg

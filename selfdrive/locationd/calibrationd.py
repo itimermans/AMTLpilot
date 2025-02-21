@@ -19,6 +19,8 @@ from openpilot.common.realtime import config_realtime_process
 from openpilot.common.transformations.orientation import rot_from_euler, euler_from_rot
 from openpilot.common.swaglog import cloudlog
 
+# AMT : Argopilot
+ARGO_FREEZE_CALIBRATION = True   # ArgoPilot: dyno — never learn, never request recalibration
 MIN_SPEED_FILTER = 15 * CV.MPH_TO_MS
 MAX_VEL_ANGLE_STD = np.radians(0.25)
 MAX_YAW_RATE_FILTER = np.radians(2)  # per second
@@ -157,7 +159,7 @@ class Calibrator:
     # Make the transition smooth. Abrupt transitions are not good for feedback loop through supercombo model.
     # TODO: add height spread check with smooth transition too
     spread_too_high = self.calib_spread[1] > MAX_ALLOWED_PITCH_SPREAD or self.calib_spread[2] > MAX_ALLOWED_YAW_SPREAD
-    if spread_too_high and self.cal_status == log.LiveCalibrationData.Status.calibrated:
+    if spread_too_high and self.cal_status == log.LiveCalibrationData.Status.calibrated and not ARGO_FREEZE_CALIBRATION:
       self.reset(self.rpys[self.block_idx - 1], valid_blocks=1, smooth_from=self.rpy)
       self.cal_status = log.LiveCalibrationData.Status.recalibrating
 
@@ -180,6 +182,8 @@ class Calibrator:
                             trans_std: list[float],
                             road_transform_trans: list[float],
                             road_transform_trans_std: list[float]) -> np.ndarray | None:
+    if ARGO_FREEZE_CALIBRATION:
+      return None
     self.old_rpy_weight = max(0.0, self.old_rpy_weight - 1/SMOOTH_CYCLES)
 
     straight_and_fast = ((self.v_ego > MIN_SPEED_FILTER) and (trans[0] > MIN_SPEED_FILTER) and (abs(rot[2]) < MAX_YAW_RATE_FILTER))
@@ -247,7 +251,10 @@ class Calibrator:
       liveCalibration.calPerc = 100.
       liveCalibration.rpyCalib = [0, 0, 0]
       liveCalibration.rpyCalibSpread = self.calib_spread.tolist()
-
+    if ARGO_FREEZE_CALIBRATION:
+      liveCalibration.validBlocks = max(liveCalibration.validBlocks, INPUTS_NEEDED)
+      liveCalibration.calStatus = log.LiveCalibrationData.Status.calibrated
+      liveCalibration.calPerc = 100
     return msg
 
   def send_data(self, pm: messaging.PubMaster, valid: bool) -> None:

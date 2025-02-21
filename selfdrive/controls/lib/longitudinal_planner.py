@@ -132,6 +132,8 @@ class LongitudinalPlanner:
     x, v, a, j, throttle_prob = self.parse_model(sm['modelV2'], self.v_model_error)
     # Don't clip at low speeds since throttle_prob doesn't account for creep
     self.allow_throttle = throttle_prob > ALLOW_THROTTLE_THRESHOLD or v_ego <= MIN_ALLOW_THROTTLE_SPEED
+    # AMT : Argopilot : Allow throttle, forced True
+    self.allow_throttle = True   # ArgoPilot: dyno — ignore the model's gas-press prediction
 
     if not self.allow_throttle:
       clipped_accel_coast = max(accel_coast, accel_clip[0])

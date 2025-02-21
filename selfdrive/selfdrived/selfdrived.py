@@ -23,6 +23,8 @@ from openpilot.selfdrive.selfdrived.alertmanager import AlertManager, set_offroa
 from openpilot.system.hardware import HARDWARE
 from openpilot.system.version import get_build_metadata
 
+# AMT : Argopilot : Disable camera events
+ARGO_DYNO = True   # ArgoPilot: dyno — suppress vision-health events. Set False for road use.
 REPLAY = "REPLAY" in os.environ
 SIMULATION = "SIMULATION" in os.environ
 TESTING_CLOSET = "TESTING_CLOSET" in os.environ
@@ -211,7 +213,7 @@ class SelfdriveD:
 
     # Handle calibration status
     cal_status = self.sm['liveCalibration'].calStatus
-    if cal_status != log.LiveCalibrationData.Status.calibrated:
+    if cal_status != log.LiveCalibrationData.Status.calibrated and not ARGO_DYNO:
       if cal_status == log.LiveCalibrationData.Status.uncalibrated:
         self.events.add(EventName.calibrationIncomplete)
       elif cal_status == log.LiveCalibrationData.Status.recalibrating:
@@ -314,7 +316,7 @@ class SelfdriveD:
     else:
       self.logged_comm_issue = None
 
-    if not self.CP.notCar:
+    if not self.CP.notCar and not ARGO_DYNO:
       if not self.sm['livePose'].posenetOK:
         self.events.add(EventName.posenetInvalid)
       if not self.sm['livePose'].inputsOK:
