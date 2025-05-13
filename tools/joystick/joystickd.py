@@ -47,8 +47,13 @@ def joystickd_thread():
 
 
     if CC.longActive:
+      accelerationCommand = sm['carState'].accelerationCommand
       #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
-      actuators.accel = sm['carState'].accelerationCommand
+      if sm['carState'].standstill:
+        actuators.accel = clip(accelerationCommand,0,3)
+      else:
+        actuators.accel = clip(accelerationCommand,-3.5,3)
+
 
 
     if CC.latActive:

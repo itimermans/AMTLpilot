@@ -103,6 +103,7 @@ class CarController(CarControllerBase):
 
     # CAN-FD platforms
     if self.CP.flags & HyundaiFlags.CANFD:
+
       hda2 = self.CP.flags & HyundaiFlags.CANFD_HDA2
       hda2_long = hda2 and self.CP.openpilotLongitudinalControl
 
@@ -123,9 +124,12 @@ class CarController(CarControllerBase):
         can_sends.extend(hyundaicanfd.create_spas_messages(self.packer, self.CAN, self.frame, CC.leftBlinker, CC.rightBlinker))
 
       if self.CP.openpilotLongitudinalControl:
+        
         if hda2:
           can_sends.extend(hyundaicanfd.create_adrv_messages(self.packer, self.CAN, self.frame))
         if self.frame % 2 == 0:
+          # AMT
+          # print(f"Enabled: {CC.enabled}, accel_last {self.accel_last}, accel {accel}, stopping {stopping}, CC.cruiseControl.override {CC.cruiseControl.override}, set_speed_in_units {set_speed_in_units}")
           can_sends.append(hyundaicanfd.create_acc_control(self.packer, self.CAN, CC.enabled, self.accel_last, accel, stopping, CC.cruiseControl.override,
                                                            set_speed_in_units, hud_control))
           self.accel_last = accel
@@ -174,8 +178,10 @@ class CarController(CarControllerBase):
     if use_clu11:
       if CC.cruiseControl.cancel:
         can_sends.append(hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.CANCEL, self.CP))
+        print("Canceling A")
       elif CC.cruiseControl.resume:
         # send resume at a max freq of 10Hz
+        print("Resuming A")
         if (self.frame - self.last_button_frame) * DT_CTRL > 0.1:
           # send 25 messages at a time to increases the likelihood of resume being accepted
           can_sends.extend([hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.RES_ACCEL, self.CP)] * 25)
@@ -185,6 +191,7 @@ class CarController(CarControllerBase):
       if (self.frame - self.last_button_frame) * DT_CTRL > 0.25:
         # cruise cancel
         if CC.cruiseControl.cancel:
+          print("Canceling B")
           if self.CP.flags & HyundaiFlags.CANFD_ALT_BUTTONS:
             can_sends.append(hyundaicanfd.create_acc_cancel(self.packer, self.CP, self.CAN, CS.cruise_info))
             self.last_button_frame = self.frame
@@ -197,8 +204,10 @@ class CarController(CarControllerBase):
         elif CC.cruiseControl.resume:
           if self.CP.flags & HyundaiFlags.CANFD_ALT_BUTTONS:
             # TODO: resume for alt button cars
+            print("Resuming B")
             pass
           else:
+            print("Resuming C")
             for _ in range(20):
               can_sends.append(hyundaicanfd.create_buttons(self.packer, self.CP, self.CAN, CS.buttons_counter+1, Buttons.RES_ACCEL))
             self.last_button_frame = self.frame

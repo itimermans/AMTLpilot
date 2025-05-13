@@ -97,8 +97,8 @@ def send_thread(joystick):
   rk = Ratekeeper(100, print_delay_threshold=None)
 
   while True:
-    if rk.frame % 20 == 0:
-      print('\n' + ', '.join(f'{name}: {round(v, 3)}' for name, v in joystick.axes_values.items()))
+    # if rk.frame % 20 == 0:
+    #   print('\n' + ', '.join(f'{name}: {round(v, 3)}' for name, v in joystick.axes_values.items()))
 
     joystick_msg = messaging.new_message('testJoystick')
     joystick_msg.valid = True

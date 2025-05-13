@@ -328,6 +328,7 @@ def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster,
   val_vEgo = CS.vEgo
   val_aEgo = CS.aEgo
   vals = f"Speed: {round(val_vEgo,3):.3f} m/s Command: {round(val_accelerationCommand,3):.3f} m/s2 Accel est: {round(val_aEgo,3):.3f}"
+  # vals = f"Standstill: {CS.standstill} Resume {sm['carControl'].cruiseControl.resume} Cancel: {sm['carControl'].cruiseControl.resume}"
   return NormalPermanentAlert("Override Mode", vals)
 
 
