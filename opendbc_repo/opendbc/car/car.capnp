@@ -156,6 +156,10 @@ struct OnroadEventDEPRECATED @0x9b1657f34caf3ad3 {
 # all speeds in m/s
 
 struct CarState {
+
+  # AMT : Add accelerationCommand
+  accelerationCommand @60 :Float32;
+
   # CAN health
   canValid @26 :Bool;       # invalid counter/checksums
   canTimeout @40 :Bool;     # CAN bus dropped out

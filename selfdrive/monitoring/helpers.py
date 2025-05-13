@@ -305,6 +305,10 @@ class DriverMonitoring:
 
   def _update_events(self, driver_engaged, op_engaged, standstill, wrong_gear, car_speed):
     self._reset_events()
+    # AMT : Force Driver Monitoring Valid
+    self._reset_awareness()
+    return
+
     # Block engaging after max number of distrations or when alert active
     if self.terminal_alert_cnt >= self.settings._MAX_TERMINAL_ALERTS or \
        self.terminal_time >= self.settings._MAX_TERMINAL_DURATION or \

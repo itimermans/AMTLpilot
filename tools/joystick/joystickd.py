@@ -36,26 +36,36 @@ def joystickd_thread():
     CC.hudControl.leadDistanceBars = 2
 
     actuators = CC.actuators
+    # AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes
+      # Fully commenting all this
 
     # reset joystick if it hasn't been received in a while
-    should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
+    # should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
 
-    if not should_reset_joystick:
-      joystick_axes = sm['testJoystick'].axes
-    else:
-      joystick_axes = [0.0, 0.0]
+    # if not should_reset_joystick:
+    #   joystick_axes = sm['testJoystick'].axes
+    # else:
+    #   joystick_axes = [0.0, 0.0]
+
+
 
     if CC.longActive:
-      actuators.accel = 4.0 * float(np.clip(joystick_axes[0], -1, 1))
-      actuators.longControlState = LongCtrlState.pid if sm['carState'].vEgo > CP.vEgoStopping else LongCtrlState.stopping
+      accelerationCommand = sm['carState'].accelerationCommand
+      #actuators.accel = 4.0 * clip(joystick_axes[0], -1, 1)
+      if sm['carState'].standstill:
+        actuators.accel = clip(accelerationCommand,0,3)
+      else:
+        actuators.accel = clip(accelerationCommand,-3.5,3)
+
+
 
     if CC.latActive:
-      max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
-      max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
+      # max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
+      # max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
 
-      actuators.torque = float(np.clip(joystick_axes[1], -1, 1))
-      actuators.steeringAngleDeg, actuators.curvature = actuators.torque * max_angle, actuators.torque * -max_curvature
-
+      # actuators.torque = float(np.clip(joystick_axes[1], -1, 1))
+      # actuators.steeringAngleDeg, actuators.curvature = actuators.torque * max_angle, actuators.torque * -max_curvature
+      actuators.torque = 0.0
     pm.send('carControl', cc_msg)
 
     cs_msg = messaging.new_message('controlsState')

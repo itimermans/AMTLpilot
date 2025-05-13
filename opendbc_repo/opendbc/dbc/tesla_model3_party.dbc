@@ -35,6 +35,8 @@ BS_:
 
 BU_: CH DIPF DIPR ETH FC HVI HVS PARTY SDCV VEH VIRT
 
+BO_ 153 Message_Acceleration_Command: 2 XXX
+ SG_ Acceleration_Command__mps2 : 7|16@0- (0.001,0) [-32.768|32.767] "m/s2" XXX
 
 BO_ 905 DAS_status2: 8 PARTY
  SG_ DAS_status2Checksum : 56|8@1+ (1,0) [0|255] ""  aps

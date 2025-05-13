@@ -43,6 +43,9 @@ class CarState(CarStateBase):
     ret.steeringRateDeg = -cp_ap_party.vl["SCCM_steeringAngleSensor"]["SCCM_steeringAngleSpeed"]
     ret.steeringTorque = -epas_status["EPAS3S_torsionBarTorque"]
 
+    # AMT : Read message from dbc and add it to CarState
+    ret.accelerationCommand = cp_party.vl["Message_Acceleration_Command"]["Acceleration_Command__mps2"]
+
     # This matches stock logic, but with halved minimum frames (0.25-0.3s)
     ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > STEER_THRESHOLD, 15)
 
@@ -112,7 +115,8 @@ class CarState(CarStateBase):
       ("IBST_status", 25),
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
-      ("UI_warning", 10)
+      ("UI_warning", 10),
+      ("Message_Acceleration_Command", 50)  # AMT : Adding info on accel message. Number indicates Hz expected
     ]
 
     ap_party_messages = [
