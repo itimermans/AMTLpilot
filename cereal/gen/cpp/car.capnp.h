@@ -374,7 +374,7 @@ struct CarState {
   struct ButtonEvent;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(9da4fa09e052903c, 10, 6)
+    CAPNP_DECLARE_STRUCT_HEADER(9da4fa09e052903c, 11, 6)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -1009,6 +1009,8 @@ public:
 
   inline bool getStockLkas() const;
 
+  inline float getAccelerationCommand() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -1242,6 +1244,9 @@ public:
 
   inline bool getStockLkas();
   inline void setStockLkas(bool value);
+
+  inline float getAccelerationCommand();
+  inline void setAccelerationCommand(float value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -5264,6 +5269,20 @@ inline bool CarState::Builder::getStockLkas() {
 inline void CarState::Builder::setStockLkas(bool value) {
   _builder.setDataField<bool>(
       ::capnp::bounded<370>() * ::capnp::ELEMENTS, value);
+}
+
+inline float CarState::Reader::getAccelerationCommand() const {
+  return _reader.getDataField<float>(
+      ::capnp::bounded<20>() * ::capnp::ELEMENTS);
+}
+
+inline float CarState::Builder::getAccelerationCommand() {
+  return _builder.getDataField<float>(
+      ::capnp::bounded<20>() * ::capnp::ELEMENTS);
+}
+inline void CarState::Builder::setAccelerationCommand(float value) {
+  _builder.setDataField<float>(
+      ::capnp::bounded<20>() * ::capnp::ELEMENTS, value);
 }
 
 inline float CarState::WheelSpeeds::Reader::getFl() const {
