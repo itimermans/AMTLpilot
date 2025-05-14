@@ -11,7 +11,7 @@ DeveloperPanel::DeveloperPanel(SettingsWindow *parent) : ListWidget(parent) {
   addItem(new SshToggle());
   addItem(new SshControl());
 
-  joystickToggle = new ParamControl("JoystickDebugMode", tr("Joystick Debug Mode"), "", "");
+  joystickToggle = new ParamControl("JoystickDebugMode", tr("Override Mode"), "", "");
   QObject::connect(joystickToggle, &ParamControl::toggleFlipped, [=](bool state) {
     params.putBool("LongitudinalManeuverMode", false);
     longManeuverToggle->refresh();

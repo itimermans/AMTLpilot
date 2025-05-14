@@ -918,11 +918,11 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
   EventName.canError: {
     ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("CAN Error"),
     ET.PERMANENT: Alert(
-      "CAN Error: Check Connections",
+      "Missing CAN Message",
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, 1., creation_delay=1.),
-    ET.NO_ENTRY: NoEntryAlert("CAN Error: Check Connections"),
+    ET.NO_ENTRY: NoEntryAlert("Missing CAN Message"),
   },
 
   EventName.canBusMissing: {
