@@ -47,17 +47,25 @@ class CarState(CarStateBase):
     ret.accelerationCommand = cp_party.vl["Message_Acceleration_Command"]["Acceleration_Command__mps2"]
 
     # This matches stock logic, but with halved minimum frames (0.25-0.3s)
-    ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > STEER_THRESHOLD, 15)
+    # AMT : DEBUG : Disabling steeringPressed Event, false all the time. WARNING: DYNO ONLY
+    # ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > STEER_THRESHOLD, 15)
+    ret.steeringPressed = False
 
     eac_status = self.can_define.dv["EPAS3S_sysStatus"]["EPAS3S_eacStatus"].get(int(epas_status["EPAS3S_eacStatus"]), None)
-    ret.steerFaultPermanent = eac_status == "EAC_FAULT"
-    ret.steerFaultTemporary = eac_status == "EAC_INHIBITED"
+    # AMT : DEBUG : Disabling steerfaults Events, false all the time. WARNING: DYNO ONLY
+    # ret.steerFaultPermanent = eac_status == "EAC_FAULT"
+    # ret.steerFaultTemporary = eac_status == "EAC_INHIBITED"
+    ret.steerFaultPermanent = False
+    ret.steerFaultTemporary = False
+
 
     # FSD disengages using union of handsOnLevel (slow overrides) and high angle rate faults (fast overrides, high speed)
     # TODO: implement in safety
     eac_error_code = self.can_define.dv["EPAS3S_sysStatus"]["EPAS3S_eacErrorCode"].get(int(epas_status["EPAS3S_eacErrorCode"]), None)
-    ret.steeringDisengage = self.hands_on_level >= 3 or (eac_status == "EAC_INHIBITED" and
-                                                         eac_error_code == "EAC_ERROR_HIGH_ANGLE_RATE_SAFETY")
+    # AMT : DEBUG : Disabling steeringDisengage Event, false all the time. WARNING: DYNO ONLY
+    # ret.steeringDisengage = self.hands_on_level >= 3 or (eac_status == "EAC_INHIBITED" and
+    #                                                      eac_error_code == "EAC_ERROR_HIGH_ANGLE_RATE_SAFETY")
+    ret.steeringDisengage = False
 
     # Cruise state
     cruise_state = self.can_define.dv["DI_state"]["DI_cruiseState"].get(int(cp_party.vl["DI_state"]["DI_cruiseState"]), None)
@@ -71,7 +79,11 @@ class CarState(CarStateBase):
     ret.cruiseState.available = cruise_state == "STANDBY" or ret.cruiseState.enabled
     ret.cruiseState.standstill = False  # This needs to be false, since we can resume from stop without sending anything special
     ret.standstill = cruise_state == "STANDSTILL"
-    ret.accFaulted = cruise_state == "FAULT"
+    # AMT : DEBUG : Disabling ACC Fault Event, false all the time. WARNING: DYNO ONLY
+    # ret.accFaulted = cruise_state == "FAULT"
+    ret.accFaulted = False
+    # AMT : DEBUG
+    print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
 
     # Gear
     ret.gearShifter = GEAR_MAP[self.can_define.dv["DI_systemStatus"]["DI_gear"].get(int(cp_party.vl["DI_systemStatus"]["DI_gear"]), "DI_GEAR_INVALID")]
@@ -90,8 +102,10 @@ class CarState(CarStateBase):
     ret.leftBlindspot = cp_ap_party.vl["DAS_status"]["DAS_blindSpotRearLeft"] != 0
     ret.rightBlindspot = cp_ap_party.vl["DAS_status"]["DAS_blindSpotRearRight"] != 0
 
+    # AMT : DEBUG : Disabling Stock AEB, false all the time. WARNING: DYNO ONLY
     # AEB
-    ret.stockAeb = cp_ap_party.vl["DAS_control"]["DAS_aebEvent"] == 1
+    # ret.stockAeb = cp_ap_party.vl["DAS_control"]["DAS_aebEvent"] == 1
+    ret.stockAeb = False
 
     # LKAS
     ret.stockLkas = cp_ap_party.vl["DAS_steeringControl"]["DAS_steeringControlType"] == 2  # LANE_KEEP_ASSIST

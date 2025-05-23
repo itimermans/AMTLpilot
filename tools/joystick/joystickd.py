@@ -79,6 +79,10 @@ def joystickd_thread():
 
     pm.send('controlsState', cs_msg)
 
+    # AMT : Debug : Print values
+    #debug_msg = ["cruise_state: "+str(sm['carState'].cruise_state),"steeringDisengage: "+str(sm['carState'].steeringDisengage)]
+    #print("DEBUG : " + "   ".join([str(m) for m in debug_msg]))
+
     rk.keep_time()
 
 

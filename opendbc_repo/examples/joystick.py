@@ -23,7 +23,7 @@ class Keyboard:
 
   def update(self):
     key = self.kb.getch().lower()
-    print(key)
+    #print(key)
     self.cancel = False
     if key == 'r':
       self.axes_values = {ax: 0. for ax in self.axes_values}
@@ -83,7 +83,7 @@ def main(joystick):
     while True:
       CC.actuators.accel = float(4.0*np.clip(joystick.axes_values['gb'], -1, 1))
       CC.actuators.torque = float(np.clip(joystick.axes_values['steer'], -1, 1))
-      pprint(CC)
+      #pprint(CC)
 
       p.read()
       p.write(CC)
