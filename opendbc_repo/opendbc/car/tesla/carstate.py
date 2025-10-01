@@ -93,6 +93,7 @@ class CarState(CarStateBase):
       print("Error party_1E5_present try 1",e)
     try:
       party_1E5_present = cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+      print("DEBUG : party_1E5_present try 2: "+str(party_1E5_present))
     except Exception as e:
       print("Error party_1E5_present try 2",e)
 
@@ -103,6 +104,7 @@ class CarState(CarStateBase):
       print("Error party_385_present try 1",e)
     try:
       party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
+      print("DEBUG : party_385_present try 2: "+str(party_385_present))
     except Exception as e:
       print("Error party_385_present try 2",e)
 
