@@ -85,6 +85,17 @@ class CarState(CarStateBase):
     # AMT : DEBUG
     # print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
 
+    # AMT Debug ACC
+    party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get(int(cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
+    party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get(int(cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
+    try:
+      print("DEBUG : party_1E5_present: "+str(party_1E5_present)+"   party_385_present: "+str(party_385_present))
+    except exception as e:
+      print("DEBUG : Exception e: "+str(e))
+    if party_1E5_present is None:
+      print("1E5 None")
+    if party_385_present is None:
+      print("385 None")
     print("All Good")
 
 
