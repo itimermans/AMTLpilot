@@ -17,6 +17,8 @@ class CarState(CarStateBase):
 
     self.hands_on_level = 0
     self.das_control = None
+    self.debug_msg_party_385 = None
+    self.debug_msg_party_1E5 = None
 
   def update(self, can_parsers) -> structs.CarState:
     cp_party = can_parsers[Bus.party]
@@ -88,8 +90,10 @@ class CarState(CarStateBase):
     # AMT Debug ACC
 
     try:
-      party_1E5_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
-      print("DEBUG : party_1E5_present try: "+str(party_1E5_present))
+      party_1E5_1A_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+      party_1E5_3B_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble3B_Set_2"]
+      print("DEBUG : party_1E5_1A_present try: "+str(party_1E5_1A_present))
+      print("DEBUG : party_1E5_3B_present try: "+str(party_1E5_3B_present))
     except Exception as e:
       print("Error party_1E5_present try",e)
 
@@ -99,8 +103,10 @@ class CarState(CarStateBase):
     except Exception as e:
       print("Error party_385_present try",e)
 
-    if party_1E5_present is None:
-      print("1E5 None")
+    if party_1E5_1A_present is None:
+      print("party_1E5_1A_present None")
+    if party_1E5_3B_present is None:
+      print("party_1E5_3B_present None")
     if party_385_present is None:
       print("385 None")
 
@@ -138,6 +144,8 @@ class CarState(CarStateBase):
 
     # Messages needed by carcontroller
     self.das_control = copy.copy(cp_ap_party.vl["DAS_control"])
+    self.debug_msg_party_385 = copy.copy(cp_party.vl["debug_msg_party_385"])
+    self.debug_msg_party_1E5 = copy.copy(cp_party.vl["debug_msg_party_1E5"])
 
     return ret
 
