@@ -94,7 +94,7 @@ class CarState(CarStateBase):
       print("Error party_1E5_present try",e)
 
     try:
-      party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
+      party_385_present = cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
       print("DEBUG : party_385_present try: "+str(party_385_present))
     except Exception as e:
       print("Error party_385_present try",e)
@@ -151,7 +151,8 @@ class CarState(CarStateBase):
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
       ("UI_warning", 10),
-      ("Message_Acceleration_Command", 50),
+      ("Message_Acceleration_Command", 50),  # AMT : Adding info on accel message. Number indicates Hz expected
+      ("debug_msg_party_385", 5),  # AMT : debug
       ("debug_msg_party_1E5", 100),  # AMT : debug
     ]
 
@@ -160,8 +161,7 @@ class CarState(CarStateBase):
       ("DAS_steeringControl", 50),
       ("DAS_status", 2),
       ("DAS_settings", 2),
-      ("SCCM_steeringAngleSensor", 100),  # AMT : Adding info on accel message. Number indicates Hz expected
-      ("debug_msg_party_385", 5),  # AMT : debug
+      ("SCCM_steeringAngleSensor", 100)
     ]
 
     return {
