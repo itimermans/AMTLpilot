@@ -86,27 +86,18 @@ class CarState(CarStateBase):
     # print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
 
     # AMT Debug ACC
-    try:
-      party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get((cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
-      print("DEBUG : party_1E5_present try 1: "+str(party_1E5_present))
-    except Exception as e:
-      print("Error party_1E5_present try 1",e)
-    try:
-      party_1E5_present = cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
-      print("DEBUG : party_1E5_present try 2: "+str(party_1E5_present))
-    except Exception as e:
-      print("Error party_1E5_present try 2",e)
 
     try:
-      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
-      print("DEBUG : party_385_present try 1: "+str(party_385_present))
+      party_1E5_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+      print("DEBUG : party_1E5_present try: "+str(party_1E5_present))
     except Exception as e:
-      print("Error party_385_present try 1",e)
+      print("Error party_1E5_present try",e)
+
     try:
       party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
-      print("DEBUG : party_385_present try 2: "+str(party_385_present))
+      print("DEBUG : party_385_present try: "+str(party_385_present))
     except Exception as e:
-      print("Error party_385_present try 2",e)
+      print("Error party_385_present try",e)
 
     if party_1E5_present is None:
       print("1E5 None")
@@ -160,7 +151,8 @@ class CarState(CarStateBase):
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
       ("UI_warning", 10),
-      ("Message_Acceleration_Command", 50)
+      ("Message_Acceleration_Command", 50),
+      ("debug_msg_party_1E5", 100),  # AMT : debug
     ]
 
     ap_party_messages = [
@@ -169,7 +161,6 @@ class CarState(CarStateBase):
       ("DAS_status", 2),
       ("DAS_settings", 2),
       ("SCCM_steeringAngleSensor", 100),  # AMT : Adding info on accel message. Number indicates Hz expected
-      ("debug_msg_party_1E5", 100),  # AMT : debug
       ("debug_msg_party_385", 5),  # AMT : debug
     ]
 
