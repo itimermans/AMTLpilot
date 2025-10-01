@@ -86,8 +86,17 @@ class CarState(CarStateBase):
     # print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
 
     # AMT Debug ACC
-    party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get(int(cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
-    party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get(int(cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
+    try:
+      party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get((cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
+      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
+    except Exception:
+      try:
+        party_1E5_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+        party_385_present = cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
+      except Exception as e:
+        print("Work on receive methods, Exception e: "+str(e))
+
+
     try:
       print("DEBUG : party_1E5_present: "+str(party_1E5_present)+"   party_385_present: "+str(party_385_present))
     except exception as e:
