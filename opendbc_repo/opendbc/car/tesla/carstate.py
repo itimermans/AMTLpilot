@@ -88,25 +88,29 @@ class CarState(CarStateBase):
     # AMT Debug ACC
     try:
       party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get((cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
-      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
-    except Exception as e1:
-      print(e1)
-      try:
-        party_1E5_present = cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
-        party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
-      except Exception as e:
-        print("Work on receive methods, Exception e: "+str(e))
-
+      print("DEBUG : party_1E5_present try 1: "+str(party_1E5_present))
+    except Exception as e:
+      print("Error party_1E5_present try 1",e)
+    try:
+      party_1E5_present = cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+    except Exception as e:
+      print("Error party_1E5_present try 2",e)
 
     try:
-      print("DEBUG : party_1E5_present: "+str(party_1E5_present)+"   party_385_present: "+str(party_385_present))
-    except exception as e:
-      print("DEBUG : Exception e: "+str(e))
+      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
+      print("DEBUG : party_385_present try 1: "+str(party_385_present))
+    except Exception as e:
+      print("Error party_385_present try 1",e)
+    try:
+      party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
+    except Exception as e:
+      print("Error party_385_present try 2",e)
+
     if party_1E5_present is None:
       print("1E5 None")
     if party_385_present is None:
       print("385 None")
-    print("All Good")
+
 
 
     # Gear
