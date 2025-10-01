@@ -34,13 +34,13 @@ class CarController(CarControllerBase):
     if self.frame % 10 == 0:
       can_sends.append(self.tesla_can.create_steering_allowed((self.frame // 10) % 16))
 
-    # AMT Debug ACC Override
-    if self.frame % 20 == 0:
-      counter_385 = CS.debug_msg_party_385["counter"]
-      can_sends.append(self.tesla_can.create_385_message(counter_385))
-    # 100 Hz
-    counter_1E5 = CS.debug_msg_party_1E5["counter"]
-    can_sends.append(self.tesla_can.create_1E5_message(counter_1E5))
+    # # AMT Debug ACC Override
+    # if self.frame % 20 == 0:
+    #   counter_385 = CS.debug_msg_party_385["counter"]
+    #   can_sends.append(self.tesla_can.create_385_message(counter_385))
+    # # 100 Hz
+    # counter_1E5 = CS.debug_msg_party_1E5["counter"]
+    # can_sends.append(self.tesla_can.create_1E5_message(counter_1E5))
 
     # Longitudinal control
     if self.CP.openpilotLongitudinalControl:
