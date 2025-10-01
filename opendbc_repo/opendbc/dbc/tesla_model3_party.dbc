@@ -41,9 +41,13 @@ BO_ 153 Message_Acceleration_Command: 2 XXX
 BO_ 485 debug_msg_party_1E5: 3 XXX
  SG_ Debug_Nibble1A_Set_2 : 4|4@1+ (1,0) [0|15] "" XXX
  SG_ Debug_Nibble3B_Set_2 : 16|4@1+ (1,0) [0|15] "" XXX
+ SG_ counter : 48|8@1+ (1,0) [0|255] "" XXX
+ SG_ checksum : 56|8@1+ (1,0) [0|255] "" XXX
 
 BO_ 901 debug_msg_party_385: 2 XXX
  SG_ Debug_Set_6E : 8|8@1+ (1,0) [0|255] "" XXX
+ SG_ counter : 48|8@1+ (1,0) [0|255] "" XXX
+ SG_ checksum : 56|8@1+ (1,0) [0|255] "" XXX
 
 BO_ 905 DAS_status2: 8 PARTY
  SG_ DAS_status2Checksum : 56|8@1+ (1,0) [0|255] ""  aps
