@@ -97,7 +97,7 @@ class CarControllerParams:
 
   STEER_STEP = 2  # Angle command is sent at 50 Hz
   # AMT : Wwas : ACCEL_MAX = 2.0    # m/s^2
-  ACCEL_MAX = 2.0    # m/s^2
+  ACCEL_MAX = 1.6    # m/s^2
   ACCEL_MIN = -3.48  # m/s^2
   JERK_LIMIT_MAX = 4.9  # m/s^3, ACC faults at 5.0
   JERK_LIMIT_MIN = -4.9  # m/s^3, ACC faults at 5.0
