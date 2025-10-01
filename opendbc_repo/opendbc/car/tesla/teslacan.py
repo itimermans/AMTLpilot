@@ -46,23 +46,24 @@ class TeslaCAN:
     values["DAS_controlChecksum"] = self.checksum(0x2b9, data[:7])
     return self.packer.make_can_msg("DAS_control", CANBUS.party, values)
 
-  # def create_1E5_message(self, counter):
+  def create_1E5_message(self, counter):
+    values = {
+      "Debug_Nibble1A_Set_2": 2,
+      "Debug_Nibble3B_Set_2": 2,
+      "counter": counter,
+    }
+    data = self.packer.make_can_msg("debug_msg_party_1E5", CANBUS.party, values)[1]
+    values["checksum"] = self.checksum(0x1e5, data[:7])
+    return self.packer.make_can_msg("debug_msg_party_1E5", CANBUS.party, values)
 
-
-  #   values = {
-  #     "Debug_Nibble1A_Set_2": 2,
-  #     "Debug_Nibble3B_Set_2": 2,
-  #     "DAS_aebEvent": 0,
-  #     "DAS_jerkMin": CarControllerParams.JERK_LIMIT_MIN,
-  #     "DAS_jerkMax": CarControllerParams.JERK_LIMIT_MAX,
-  #     "DAS_accelMin": accel,
-  #     "DAS_accelMax": max(accel, 0),
-  #     "DAS_controlCounter": cntr,
-  #     "DAS_controlChecksum": 0,
-  #   }
-  #   data = self.packer.make_can_msg("debug_msg_party_1E5", CANBUS.party, values)[1]
-  #   values["DAS_controlChecksum"] = self.checksum(0x2b9, data[:7])
-  #   return self.packer.make_can_msg("debug_msg_party_1E5", CANBUS.party, values)
+  def create_385_message(self, counter):
+    values = {
+      "Debug_Set_6E": 0x6E,
+      "counter": counter,
+    }
+    data = self.packer.make_can_msg("debug_msg_party_385", CANBUS.party, values)[1]
+    values["checksum"] = self.checksum(0x385, data[:7])
+    return self.packer.make_can_msg("debug_msg_party_385", CANBUS.party, values)
 
   def create_steering_allowed(self, counter):
     values = {
