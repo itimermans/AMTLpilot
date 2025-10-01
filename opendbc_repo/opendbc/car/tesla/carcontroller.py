@@ -34,13 +34,6 @@ class CarController(CarControllerBase):
     if self.frame % 10 == 0:
       can_sends.append(self.tesla_can.create_steering_allowed((self.frame // 10) % 16))
 
-    # Longitudinal control
-    if self.CP.openpilotLongitudinalControl:
-      if self.frame % 4 == 0:
-        state = 13 if CC.cruiseControl.cancel else 4  # 4=ACC_ON, 13=ACC_CANCEL_GENERIC_SILENT
-        accel = float(np.clip(actuators.accel, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX))
-        cntr = (self.frame // 4) % 8
-        can_sends.append(self.tesla_can.create_longitudinal_command(state, accel, cntr, CS.out.vEgo, CC.longActive))
     # AMT Debug ACC Override
     if self.frame % 20 == 0:
       counter_385 = CS.debug_msg_party_385["counter"]
@@ -48,6 +41,15 @@ class CarController(CarControllerBase):
     # 100 Hz
     counter_1E5 = CS.debug_msg_party_1E5["counter"]
     can_sends.append(self.tesla_can.create_1E5_message(counter_1E5))
+
+    # Longitudinal control
+    if self.CP.openpilotLongitudinalControl:
+      if self.frame % 4 == 0:
+        state = 13 if CC.cruiseControl.cancel else 4  # 4=ACC_ON, 13=ACC_CANCEL_GENERIC_SILENT
+        accel = float(np.clip(actuators.accel, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX))
+        cntr = (self.frame // 4) % 8
+        can_sends.append(self.tesla_can.create_longitudinal_command(state, accel, cntr, CS.out.vEgo, CC.longActive))
+
 
     else:
       # Increment counter so cancel is prioritized even without openpilot longitudinal
