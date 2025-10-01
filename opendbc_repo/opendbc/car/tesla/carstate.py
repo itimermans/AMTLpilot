@@ -83,7 +83,10 @@ class CarState(CarStateBase):
     # ret.accFaulted = cruise_state == "FAULT"
     ret.accFaulted = False
     # AMT : DEBUG
-    print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
+    # print("DEBUG : cruise_state: "+str(cruise_state)+"   eac_status: "+str(eac_status)+"   eac_error_code: "+str(eac_error_code)+"    hands_on_level:"+str(self.hands_on_level), "    steeringPressed: "+str(ret.steeringPressed))
+
+    print("All Good")
+
 
     # Gear
     ret.gearShifter = GEAR_MAP[self.can_define.dv["DI_systemStatus"]["DI_gear"].get(int(cp_party.vl["DI_systemStatus"]["DI_gear"]), "DI_GEAR_INVALID")]
@@ -130,7 +133,9 @@ class CarState(CarStateBase):
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
       ("UI_warning", 10),
-      ("Message_Acceleration_Command", 50)  # AMT : Adding info on accel message. Number indicates Hz expected
+      ("Message_Acceleration_Command", 50),  # AMT : Adding info on accel message. Number indicates Hz expected
+      ("debug_msg_party_1E5", 100),  # AMT : debug
+      ("debug_msg_party_385", 5),  # AMT : debug
     ]
 
     ap_party_messages = [
