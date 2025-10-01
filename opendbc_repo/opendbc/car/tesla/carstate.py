@@ -87,12 +87,13 @@ class CarState(CarStateBase):
 
     # AMT Debug ACC
     try:
-      party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get((cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
-      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
-    except Exception:
+      party_1E5_present = self.can_define.dv["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"].get((cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]), None)
+      party_385_present = self.can_define.dv["debug_msg_party_385"]["Debug_Set_6E"].get((cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]), None)
+    except Exception as e1:
+      print(e1)
       try:
-        party_1E5_present = cp_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
-        party_385_present = cp_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
+        party_1E5_present = cp_ap_party.vl["debug_msg_party_1E5"]["Debug_Nibble1A_Set_2"]
+        party_385_present = cp_ap_party.vl["debug_msg_party_385"]["Debug_Set_6E"]
       except Exception as e:
         print("Work on receive methods, Exception e: "+str(e))
 
@@ -153,9 +154,7 @@ class CarState(CarStateBase):
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
       ("UI_warning", 10),
-      ("Message_Acceleration_Command", 50),  # AMT : Adding info on accel message. Number indicates Hz expected
-      ("debug_msg_party_1E5", 100),  # AMT : debug
-      ("debug_msg_party_385", 5),  # AMT : debug
+      ("Message_Acceleration_Command", 50)
     ]
 
     ap_party_messages = [
@@ -163,7 +162,9 @@ class CarState(CarStateBase):
       ("DAS_steeringControl", 50),
       ("DAS_status", 2),
       ("DAS_settings", 2),
-      ("SCCM_steeringAngleSensor", 100),
+      ("SCCM_steeringAngleSensor", 100),  # AMT : Adding info on accel message. Number indicates Hz expected
+      ("debug_msg_party_1E5", 100),  # AMT : debug
+      ("debug_msg_party_385", 5),  # AMT : debug
     ]
 
     return {
