@@ -74,6 +74,10 @@ BO_ 170 WHEEL_SPEEDS: 8 XXX
  SG_ WHEEL_SPEED_RR : 39|16@0+ (0.01,-67.67) [0|250] "km/h" XXX
  SG_ WHEEL_SPEED_RL : 55|16@0+ (0.01,-67.67) [0|250] "km/h" XXX
 
+BO_ 153 Message_Acceleration_Command: 2 XXX
+ SG_ Acceleration_Command__mps2 : 7|16@0- (0.001,0) [-32.768|32.767] "m/s2" XXX
+
+
 BO_ 180 SPEED: 8 XXX
  SG_ ENCODER : 39|8@0+ (1,0) [0|255] "" XXX
  SG_ SPEED : 47|16@0+ (0.01,0) [0|250] "km/h" XXX

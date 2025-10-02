@@ -182,10 +182,17 @@ def modeld_lagging_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubM
 
 
 def joystick_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int, personality) -> Alert:
-  gb = sm['carControl'].actuators.accel / 4.
-  steer = sm['carControl'].actuators.torque
-  vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
-  return NormalPermanentAlert("Joystick Mode", vals)
+  # AMT : Modify joystick_alert to see values
+  # gb = sm['carControl'].actuators.accel / 4.
+  # steer = sm['carControl'].actuators.steer
+  # vals = f"Gas: {round(gb * 100.)}%, Steer: {round(steer * 100.)}%"
+  val_accelerationCommand = CS.accelerationCommand
+  val_vEgo = CS.vEgo
+  val_aEgo = CS.aEgo
+  vals = f"Speed: {round(val_vEgo,3):.3f} m/s Command: {round(val_accelerationCommand,3):.3f} m/s2 Accel est: {round(val_aEgo,3):.3f}"
+  # vals = f"Standstill: {CS.standstill} Resume {sm['carControl'].cruiseControl.resume} Cancel: {sm['carControl'].cruiseControl.resume}"
+  return NormalPermanentAlert("Override Mode", vals)
+
 
 
 def longitudinal_maneuver_alert(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool, soft_disable_time: int, personality) -> Alert:
@@ -223,9 +230,16 @@ EVENTS: dict[int, dict[str, Alert | AlertCallbackType]] = {
 
   # ********** events only containing alerts displayed in all states **********
 
+  # AMT : Modify alert to see values
+
+  # EventName.joystickDebug: {
+  #   ET.WARNING: joystick_alert,
+  #   ET.PERMANENT: NormalPermanentAlert("Joystick Mode"),
+  # },
+
   EventName.joystickDebug: {
     ET.WARNING: joystick_alert,
-    ET.PERMANENT: NormalPermanentAlert("Joystick Mode"),
+    ET.PERMANENT: joystick_alert,
   },
 
   EventName.longitudinalManeuver: {

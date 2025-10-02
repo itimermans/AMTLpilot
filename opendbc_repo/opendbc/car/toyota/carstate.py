@@ -90,6 +90,11 @@ class CarState(CarStateBase, CarStateExt):
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_RL"],
       cp.vl["WHEEL_SPEEDS"]["WHEEL_SPEED_RR"],
     )
+
+    # AMT : Read message from dbc and add it to CarState
+    ret.accelerationCommand = cp.vl["Message_Acceleration_Command"]["Acceleration_Command__mps2"]
+
+
     ret.vEgoCluster = ret.vEgo * 1.015  # minimum of all the cars
 
     ret.standstill = abs(ret.vEgoRaw) < 1e-3

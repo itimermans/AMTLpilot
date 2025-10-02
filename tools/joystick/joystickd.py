@@ -36,17 +36,28 @@ def joystickd_thread():
     CC.hudControl.leadDistanceBars = 2
 
     actuators = CC.actuators
+    ## AMT : Several changes here to enforce constant joystick mode and accel from command message, not axes. Mods end in ##end
 
-    # reset joystick if it hasn't been received in a while
-    should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
+    # # reset joystick if it hasn't been received in a while
+    # should_reset_joystick = sm.recv_frame['testJoystick'] == 0 or (sm.frame - sm.recv_frame['testJoystick'])*DT_CTRL > 0.2
 
-    if not should_reset_joystick:
-      joystick_axes = sm['testJoystick'].axes
-    else:
-      joystick_axes = [0.0, 0.0]
+    # if not should_reset_joystick:
+    #   joystick_axes = sm['testJoystick'].axes
+    # else:
+    #   joystick_axes = [0.0, 0.0]
 
     if CC.longActive:
-      actuators.accel = 4.0 * float(np.clip(joystick_axes[0], -1, 1))
+      accelerationCommand = sm['carState'].accelerationCommand
+      actuators.accel = np.clip(accelerationCommand,-5,3)
+      #actuators.accel = 4.0 * float(np.clip(joystick_axes[0], -1, 1))
+
+      ## THIS IS ALSO DEBUG: Play with this is problems at low/zero speed
+      # if sm['carState'].standstill:
+      #   actuators.accel = np.clip(accelerationCommand,0,3)
+      # else:
+      #   actuators.accel = np.clip(accelerationCommand,-3.5,3)
+
+      # Maybe gotta modify this also
       actuators.longControlState = LongCtrlState.pid if sm['carState'].vEgo > CP.vEgoStopping else LongCtrlState.stopping
 
     if CC.latActive:
