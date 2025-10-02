@@ -24,18 +24,18 @@ class DeveloperLayout(Widget):
     self._params = Params()
     items = [
       toggle_item(
+        "Override Mode",
+        description=DESCRIPTIONS["joystick_debug_mode"],
+        initial_state=self._params.get_bool("JoystickDebugMode"),
+        callback=self._on_joystick_debug_mode,
+      ),
+      toggle_item(
         "Enable ADB",
         description=DESCRIPTIONS["enable_adb"],
         initial_state=self._params.get_bool("AdbEnabled"),
         callback=self._on_enable_adb,
       ),
       ssh_key_item("SSH Key", description=DESCRIPTIONS["ssh_key"]),
-      toggle_item(
-        "Joystick Debug Mode",
-        description=DESCRIPTIONS["joystick_debug_mode"],
-        initial_state=self._params.get_bool("JoystickDebugMode"),
-        callback=self._on_joystick_debug_mode,
-      ),
       toggle_item(
         "Longitudinal Maneuver Mode",
         description="",
