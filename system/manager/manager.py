@@ -69,6 +69,9 @@ def manager_init() -> None:
   params.put_bool("IsReleaseBranch", build_metadata.release_channel)
   params.put("HardwareSerial", serial)
 
+  ## AMT : Force Joystick Mode at the beninning
+  params.put_bool('JoystickDebugMode', True)
+
   # set dongle id
   reg_res = register(show_spinner=True)
   if reg_res:
