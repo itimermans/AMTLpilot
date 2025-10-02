@@ -61,12 +61,12 @@ def joystickd_thread():
       actuators.longControlState = LongCtrlState.pid if sm['carState'].vEgo > CP.vEgoStopping else LongCtrlState.stopping
 
     if CC.latActive:
-      max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
-      max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
+      # max_curvature = MAX_LAT_ACCEL / max(sm['carState'].vEgo ** 2, 5)
+      # max_angle = math.degrees(VM.get_steer_from_curvature(max_curvature, sm['carState'].vEgo, sm['liveParameters'].roll))
 
-      actuators.torque = float(np.clip(joystick_axes[1], -1, 1))
-      actuators.steeringAngleDeg, actuators.curvature = actuators.torque * max_angle, actuators.torque * -max_curvature
-
+      # actuators.torque = float(np.clip(joystick_axes[1], -1, 1))
+      # actuators.steeringAngleDeg, actuators.curvature = actuators.torque * max_angle, actuators.torque * -max_curvature
+      actuators.torque = 0.0
     pm.send('carControl', cc_msg)
 
     cs_msg = messaging.new_message('controlsState')
