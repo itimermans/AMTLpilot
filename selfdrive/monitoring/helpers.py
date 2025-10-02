@@ -309,6 +309,17 @@ class DriverMonitoring:
 
   def _update_events(self, driver_engaged, op_engaged, standstill, wrong_gear, car_speed):
     self._reset_events()
+
+    ## AMT : Force reset awareness, manually change some variables (in case they're used directly elsewhere) and return
+    self._reset_awareness()
+    self.face_detected = True
+    self.driver_distracted = False
+    self.distracted_types = []
+    self.awareness = 1.0
+    self.wheel_on_right = False
+    return
+
+
     # Block engaging until ignition cycle after max number or time of distractions
     if self.terminal_alert_cnt >= self.settings._MAX_TERMINAL_ALERTS or \
        self.terminal_time >= self.settings._MAX_TERMINAL_DURATION:

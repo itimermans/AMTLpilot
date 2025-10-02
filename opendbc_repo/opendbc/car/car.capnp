@@ -174,6 +174,9 @@ struct CarState {
   standstill @18 :Bool;
   wheelSpeeds @2 :WheelSpeeds;
 
+  # AMT : Add accelerationCommand_CarState
+  accelerationCommand @61 :Float32;
+
   gasPressed @4 :Bool;    # this is user pedal only
 
   # brake pedal, 0.0-1.0

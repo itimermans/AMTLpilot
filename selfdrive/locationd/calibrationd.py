@@ -236,6 +236,9 @@ class Calibrator:
     msg = messaging.new_message('liveCalibration')
     msg.valid = valid
 
+    ## AMT
+    # Comment out actual calibration, replace with fake (from self.not_car...)
+
     liveCalibration = msg.liveCalibration
     liveCalibration.validBlocks = self.valid_blocks
     liveCalibration.calStatus = self.cal_status
@@ -244,8 +247,21 @@ class Calibrator:
     liveCalibration.rpyCalibSpread = self.calib_spread.tolist()
     liveCalibration.wideFromDeviceEuler = self.wide_from_device_euler.tolist()
     liveCalibration.height = self.height.tolist()
+    #liveCalibration.validBlocks = self.valid_blocks
+    #liveCalibration.calStatus = self.cal_status
+    #liveCalibration.calPerc = min(100 * (self.valid_blocks * BLOCK_SIZE + self.idx) // (INPUTS_NEEDED * BLOCK_SIZE), 100)
+    #liveCalibration.rpyCalib = smooth_rpy.tolist()
+    #liveCalibration.rpyCalibSpread = self.calib_spread.tolist()
+    #liveCalibration.wideFromDeviceEuler = self.wide_from_device_euler.tolist()
+    #liveCalibration.height = self.height.tolist()
 
     if self.not_car:
+      liveCalibration.validBlocks = INPUTS_NEEDED
+      liveCalibration.calStatus = log.LiveCalibrationData.Status.calibrated
+      liveCalibration.calPerc = 100.
+      liveCalibration.rpyCalib = [0, 0, 0]
+      liveCalibration.rpyCalibSpread = self.calib_spread.tolist()
+      ## AMT : Also trick here
       liveCalibration.validBlocks = INPUTS_NEEDED
       liveCalibration.calStatus = log.LiveCalibrationData.Status.calibrated
       liveCalibration.calPerc = 100.
