@@ -92,7 +92,7 @@ class CarState(CarStateBase, CarStateExt):
     )
 
     # AMT : Read message from dbc and add it to CarState
-    ret.accelerationCommand = cp_cam.vl["Message_Acceleration_Command"]["Acceleration_Command__mps2"]
+    ret.accelerationCommand = cp.vl["Message_Acceleration_Command"]["Acceleration_Command__mps2"]
 
 
     ret.vEgoCluster = ret.vEgo * 1.015  # minimum of all the cars
