@@ -84,7 +84,6 @@ function launch {
       --accept-server-license-terms \
       --name c3x \
       --no-sleep \
-      --dir /data \
       --verbose \
       >> /data/vscode/logs/tunnel.log 2>&1 &
   else
