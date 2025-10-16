@@ -77,6 +77,20 @@ function launch {
   # write tmux scrollback to a file
   tmux capture-pane -pq -S-1000 > /tmp/launch_log
 
+    # --- Start VS Code Remote Tunnel (background) ---
+  if [ -x /data/vscode/bin/code ]; then
+    echo "[VSCode Tunnel] Launching tunnel service..."
+    /data/vscode/bin/code tunnel \
+      --accept-server-license-terms \
+      --name c3x \
+      --no-sleep \
+      --dir /data \
+      --verbose \
+      >> /data/vscode/logs/tunnel.log 2>&1 &
+  else
+    echo "[VSCode Tunnel] Skipped: /data/vscode/bin/code not found"
+  fi
+
   # start manager
   cd system/manager
   if [ ! -f $DIR/prebuilt ]; then
