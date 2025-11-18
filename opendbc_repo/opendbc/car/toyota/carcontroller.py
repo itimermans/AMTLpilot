@@ -273,9 +273,11 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         elif net_acceleration_request_min > 0.3:
           self.permit_braking = False
 
-        debug_text += f"permit_braking: {self.permit_braking:.2f} | "
+        debug_text += f"permit_braking: {self.permit_braking} | "
 
         pcm_accel_cmd = pcm_accel_cmd if self.CP.carFingerprint in TSS2_CAR else actuators.accel
+        if not (self.CP.carFingerprint in TSS2_CAR):
+          print("USING ACCEL_NET DIRECTLY")
         pcm_accel_cmd = float(np.clip(pcm_accel_cmd, self.params.ACCEL_MIN, self.params.ACCEL_MAX))
 
         can_sends.append(toyotacan.create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.permit_braking, self.standstill_req, lead,
