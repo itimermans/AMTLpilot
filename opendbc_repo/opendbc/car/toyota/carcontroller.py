@@ -203,6 +203,14 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
 
         # internal PCM gas command can get stuck unwinding from negative accel so we apply a generous rate limit
         pcm_accel_cmd = actuators.accel
+
+        # AMT : Force lower decel command when stop
+        if(CS.out.standstill):
+          print("Standstill")
+        if(CS.out.vEgo < 0.1):
+          pcm_accel_cmd = max(actuators.accel, -0.5)
+
+
         if CC.longActive:
           pcm_accel_cmd = rate_limit(pcm_accel_cmd, self.prev_accel, ACCEL_WINDDOWN_LIMIT, ACCEL_WINDUP_LIMIT)
         self.prev_accel = pcm_accel_cmd
