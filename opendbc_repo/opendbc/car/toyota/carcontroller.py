@@ -84,6 +84,10 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
     self.secoc_prev_reset_counter = 0
 
   def update(self, CC, CC_SP, CS, now_nanos):
+
+    # AMT : Debug text
+    debug_text = ""
+
     actuators = CC.actuators
     stopping = actuators.longControlState == LongCtrlState.stopping
     hud_control = CC.hudControl
@@ -203,16 +207,17 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
 
         # internal PCM gas command can get stuck unwinding from negative accel so we apply a generous rate limit
         pcm_accel_cmd = actuators.accel
+        debug_text += f"actuators.accel: {actuators.accel:.2f} | "
 
         # AMT : Force lower decel command when stop
-        if(CS.out.standstill):
-          print("Standstill")
         if(CS.out.vEgo < 0.1):
           pcm_accel_cmd = max(actuators.accel, -0.5)
+        debug_text += f"After forced decel: {pcm_accel_cmd:.2f} | "
 
 
         if CC.longActive:
           pcm_accel_cmd = rate_limit(pcm_accel_cmd, self.prev_accel, ACCEL_WINDDOWN_LIMIT, ACCEL_WINDUP_LIMIT)
+          debug_text += f"After rate limit: {pcm_accel_cmd:.2f} | "
         self.prev_accel = pcm_accel_cmd
 
         # calculate amount of acceleration PCM should apply to reach target, given pitch.
@@ -249,10 +254,14 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
                                                -MAX_PITCH_COMPENSATION, MAX_PITCH_COMPENSATION))
             pcm_accel_cmd += pitch_compensation
 
+          debug_text += f"Pitch comp: {pcm_accel_cmd:.2f} | "
+
           pcm_accel_cmd = self.long_pid.update(error_future,
                                                speed=CS.out.vEgo,
                                                feedforward=pcm_accel_cmd,
                                                freeze_integrator=actuators.longControlState != LongCtrlState.pid)
+          debug_text += f"After PID: {pcm_accel_cmd:.2f} | "
+
         else:
           self.long_pid.reset()
 
@@ -263,6 +272,8 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
           self.permit_braking = True
         elif net_acceleration_request_min > 0.3:
           self.permit_braking = False
+
+        debug_text += f"permit_braking: {self.permit_braking:.2f} | "
 
         pcm_accel_cmd = pcm_accel_cmd if self.CP.carFingerprint in TSS2_CAR else actuators.accel
         pcm_accel_cmd = float(np.clip(pcm_accel_cmd, self.params.ACCEL_MIN, self.params.ACCEL_MAX))
