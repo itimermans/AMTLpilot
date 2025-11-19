@@ -279,7 +279,7 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         elif pcm_accel_cmd > 0.0:
           self.permit_braking = False
 
-        debug_text += f"permit_braking: {self.permit_braking} | "\
+        debug_text += f"permit_braking: {self.permit_braking} | "
         debug_text += f"stopping: {stopping} | "
 
         pcm_accel_cmd = pcm_accel_cmd if self.CP.carFingerprint in TSS2_CAR else actuators.accel
