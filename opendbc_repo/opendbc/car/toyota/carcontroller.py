@@ -274,9 +274,9 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         # elif net_acceleration_request_min > 0.3:
         #   self.permit_braking = False
 
-        if pcm_accel_cmd <= 0.01 or stopping or not CC.longActive:
+        if pcm_accel_cmd <= 0 or not CC.longActive:
           self.permit_braking = True
-        elif pcm_accel_cmd > 0.01:
+        elif pcm_accel_cmd > 0:
           self.permit_braking = False
 
         debug_text += f"permit_braking: {self.permit_braking} | "
@@ -290,7 +290,7 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         can_sends.append(toyotacan.create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.permit_braking, self.standstill_req, lead,
                                                         CS.acc_type, fcw_alert, self.distance_button, self.SECOC_LONG))
 
-        print(debug_text)
+        # print(debug_text)
         self.accel = pcm_accel_cmd
 
     else:
