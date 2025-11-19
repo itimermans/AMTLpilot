@@ -209,9 +209,12 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         pcm_accel_cmd = actuators.accel
         debug_text += f"actuators.accel: {actuators.accel:.2f} | "
 
-        # AMT : Force lower decel command when stop
+        # AMT : Force lower decel command when stop ## Correction: Avoid creep tvorque,
+        # force -0.5 command when zero speed, neg command
         if(CS.out.vEgo < 0.1):
-          pcm_accel_cmd = max(actuators.accel, -0.5)
+          if actuators.accel <= 0:
+            pcm_accel_cmd = -0.5
+          #pcm_accel_cmd = max(actuators.accel, -0.5)
         debug_text += f"After forced decel: {pcm_accel_cmd:.2f} | "
 
 
