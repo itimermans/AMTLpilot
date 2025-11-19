@@ -9,6 +9,9 @@ C3_LAUNCH_SH="./sunnypilot/system/hardware/c3/launch_chffrplus.sh"
 MODEL="$(tr -d '\0' < "/sys/firmware/devicetree/base/model")"
 export MODEL
 
+## AMT : PROBLEM WITH C3X B
+export DISABLE_WIDE_ROAD=1
+
 if [ "$MODEL" = "comma tici" ]; then
   # Force a failure if the launcher doesn't exist
   [ -x "$C3_LAUNCH_SH" ] || false
