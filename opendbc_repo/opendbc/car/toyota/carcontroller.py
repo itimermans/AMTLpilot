@@ -274,9 +274,9 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         # elif net_acceleration_request_min > 0.3:
         #   self.permit_braking = False
 
-        if pcm_accel_cmd <= 0.0 or not CC.longActive:
+        if pcm_accel_cmd <= 0.01 or stopping or not CC.longActive:
           self.permit_braking = True
-        elif pcm_accel_cmd > 0.0:
+        elif pcm_accel_cmd > 0.01:
           self.permit_braking = False
 
         debug_text += f"permit_braking: {self.permit_braking} | "
