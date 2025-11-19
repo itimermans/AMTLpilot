@@ -254,7 +254,6 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
                                                -MAX_PITCH_COMPENSATION, MAX_PITCH_COMPENSATION))
             pcm_accel_cmd += pitch_compensation
 
-          debug_text += f"Pitch comp: {pcm_accel_cmd:.2f} | "
 
           pcm_accel_cmd = self.long_pid.update(error_future,
                                                speed=CS.out.vEgo,
@@ -268,12 +267,20 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         # Along with rate limiting positive jerk above, this greatly improves gas response time
         # Consider the net acceleration request that the PCM should be applying (pitch included)
         net_acceleration_request_min = min(actuators.accel + accel_due_to_pitch, net_acceleration_request)
-        if net_acceleration_request_min < 0.2 or stopping or not CC.longActive:
+
+        ## AMT : Modify permit_braking logic
+        # if net_acceleration_request_min < 0.2 or stopping or not CC.longActive:
+        #   self.permit_braking = True
+        # elif net_acceleration_request_min > 0.3:
+        #   self.permit_braking = False
+
+        if pcm_accel_cmd < 0.0 or stopping or not CC.longActive:
           self.permit_braking = True
-        elif net_acceleration_request_min > 0.3:
+        elif net_acceleration_request_min > 0.0:
           self.permit_braking = False
 
-        debug_text += f"permit_braking: {self.permit_braking} | "
+        debug_text += f"permit_braking: {self.permit_braking} | "\
+        debug_text += f"stopping: {stopping} | "
 
         pcm_accel_cmd = pcm_accel_cmd if self.CP.carFingerprint in TSS2_CAR else actuators.accel
         if not (self.CP.carFingerprint in TSS2_CAR):
