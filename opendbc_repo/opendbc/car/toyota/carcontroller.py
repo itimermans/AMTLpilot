@@ -258,10 +258,10 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
             pcm_accel_cmd += pitch_compensation
 
           # AMT : Try skip PID, see what happens
-          # pcm_accel_cmd = self.long_pid.update(error_future,
-          #                                      speed=CS.out.vEgo,
-          #                                      feedforward=pcm_accel_cmd,
-          #                                      freeze_integrator=actuators.longControlState != LongCtrlState.pid)
+          pcm_accel_cmd = self.long_pid.update(error_future,
+                                               speed=CS.out.vEgo,
+                                               feedforward=pcm_accel_cmd,
+                                               freeze_integrator=actuators.longControlState != LongCtrlState.pid)
           debug_text += f"After PID: {pcm_accel_cmd:.2f} | "
 
         else:
