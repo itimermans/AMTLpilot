@@ -257,11 +257,11 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
                                                -MAX_PITCH_COMPENSATION, MAX_PITCH_COMPENSATION))
             pcm_accel_cmd += pitch_compensation
 
-
-          pcm_accel_cmd = self.long_pid.update(error_future,
-                                               speed=CS.out.vEgo,
-                                               feedforward=pcm_accel_cmd,
-                                               freeze_integrator=actuators.longControlState != LongCtrlState.pid)
+          # AMT : Try skip PID, see what happens
+          # pcm_accel_cmd = self.long_pid.update(error_future,
+          #                                      speed=CS.out.vEgo,
+          #                                      feedforward=pcm_accel_cmd,
+          #                                      freeze_integrator=actuators.longControlState != LongCtrlState.pid)
           debug_text += f"After PID: {pcm_accel_cmd:.2f} | "
 
         else:
@@ -293,7 +293,7 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         can_sends.append(toyotacan.create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.permit_braking, self.standstill_req, lead,
                                                         CS.acc_type, fcw_alert, self.distance_button, self.SECOC_LONG))
 
-        # print(debug_text)
+        print(debug_text)
         self.accel = pcm_accel_cmd
 
     else:
