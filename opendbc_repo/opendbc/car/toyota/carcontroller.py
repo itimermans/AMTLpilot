@@ -209,6 +209,9 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         pcm_accel_cmd = actuators.accel
         debug_text += f"actuators.accel: {actuators.accel:.2f} | "
 
+        # AMT : Initial first clipping, to avoid carrying the raw command up to the PID
+        pcm_accel_cmd = float(np.clip(pcm_accel_cmd, self.params.ACCEL_MIN, self.params.ACCEL_MAX))
+
         # AMT : Force lower decel command when stop ## Correction: Avoid creep tvorque,
         # force -0.5 command when zero speed, neg command
         if(CS.out.vEgo < 0.1):
