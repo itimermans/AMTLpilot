@@ -258,7 +258,8 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
             high_pass_pitch = self.pitch.x - self.pitch_slow.x
             pitch_compensation = float(np.clip(math.sin(high_pass_pitch) * ACCELERATION_DUE_TO_GRAVITY,
                                                -MAX_PITCH_COMPENSATION, MAX_PITCH_COMPENSATION))
-            pcm_accel_cmd += pitch_compensation
+            # AMT : Remove pitch comp for dyno testing
+            # pcm_accel_cmd += pitch_compensation
 
           # AMT : Try skip PID, see what happens
           pcm_accel_cmd = self.long_pid.update(error_future,
