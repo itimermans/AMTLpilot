@@ -48,7 +48,7 @@ def joystickd_thread():
 
     if CC.longActive:
       accelerationCommand = sm['carState'].accelerationCommand
-      actuators.accel = float(np.clip(accelerationCommand,-5,3))
+      actuators.accel = float(np.clip(accelerationCommand,-5,2)) # 2 for Toyota
       #actuators.accel = 4.0 * float(np.clip(joystick_axes[0], -1, 1))
 
       ## THIS IS ALSO DEBUG: Play with this is problems at low/zero speed
