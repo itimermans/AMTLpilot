@@ -414,16 +414,19 @@ class SelfdriveD(CruiseHelper):
     stock_long_is_braking = self.enabled and not self.CP.openpilotLongitudinalControl and CS.aEgo < -1.25
     model_fcw = self.sm['modelV2'].meta.hardBrakePredicted and not CS.brakePressed and not stock_long_is_braking
     planner_fcw = self.sm['longitudinalPlan'].fcw and self.enabled
-    if (planner_fcw or model_fcw) and not self.CP.notCar:
-      self.events.add(EventName.fcw)
+    # AMT : Hide fcw from model/planner (we're on dyno)
+    # if (planner_fcw or model_fcw) and not self.CP.notCar:
+    #   self.events.add(EventName.fcw)
 
     # GPS checks
     gps_ok = self.sm.recv_frame[self.gps_location_service] > 0 and (self.sm.frame - self.sm.recv_frame[self.gps_location_service]) * DT_CTRL < 2.0
-    if not gps_ok and self.sm['livePose'].inputsOK and (self.distance_traveled > 1500):
-      self.events.add(EventName.noGps)
-    if gps_ok:
-      self.distance_traveled = 0
-    self.distance_traveled += abs(CS.vEgo) * DT_CTRL
+    # AMT: Remove gps check and force self.distance_traveled = 0
+    # if not gps_ok and self.sm['livePose'].inputsOK and (self.distance_traveled > 1500):
+    #   self.events.add(EventName.noGps)
+    # if gps_ok:
+    #   self.distance_traveled = 0
+    # self.distance_traveled += abs(CS.vEgo) * DT_CTRL
+    self.distance_traveled = 0
 
     # TODO: fix simulator
     if not SIMULATION or REPLAY:
