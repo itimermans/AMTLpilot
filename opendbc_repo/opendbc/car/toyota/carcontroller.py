@@ -261,6 +261,8 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
             # AMT : Remove pitch comp for dyno testing
             # pcm_accel_cmd += pitch_compensation
 
+          #
+
           # AMT : Try skip PID, see what happens
           # pcm_accel_cmd = self.long_pid.update(error_future,
           #                                      speed=CS.out.vEgo,
