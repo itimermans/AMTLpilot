@@ -283,7 +283,7 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
 
         if pcm_accel_cmd < 0 or not CC.longActive:
           self.permit_braking = True
-        elif pcm_accel_cmd > 0:
+        elif pcm_accel_cmd >= 0:
           self.permit_braking = False
 
         debug_text += f"permit_braking: {self.permit_braking} | "
