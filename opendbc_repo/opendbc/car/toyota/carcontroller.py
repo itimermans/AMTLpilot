@@ -296,6 +296,9 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
 
         can_sends.append(toyotacan.create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.permit_braking, self.standstill_req, lead,
                                                         CS.acc_type, fcw_alert, self.distance_button, self.SECOC_LONG))
+        # AMT : Send message (addr, vl, bus)
+        if self.frame % 50 == 0: # (1/freq)*100
+          can_sends.append(CanData(0x199, b'\x12\x34\x56\x78\x90\xAA', 0)) # (addr, vl, bus)
 
         print(debug_text)
         self.accel = pcm_accel_cmd
@@ -339,9 +342,7 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         if self.frame % fr_step == 0 and self.CP.carFingerprint in cars:
           can_sends.append(CanData(addr, vl, bus))
 
-    # AMT : Send message (addr, vl, bus)
-    if self.frame % 50 == 0: # (1/freq)*100
-      can_sends.append(CanData(0x199, b'\x12\x34\x56\x78\x90\xAA', 0)) # (addr, vl, bus)
+
 
     # keep radar disabled
     if self.frame % 20 == 0 and self.CP.flags & ToyotaFlags.DISABLE_RADAR.value:
