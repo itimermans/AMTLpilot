@@ -301,8 +301,8 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         #   can_sends.append(CanData(0x98, b'\x12\x34\x56\x78\x90\xAA', 0)) # (addr, vl, bus)
         #   can_sends.append(CanData(0x97, b'\x12\x34\x56\x78\x90\xAA', 1)) # (addr, vl, bus)
         #   can_sends.append(CanData(0x96, b'\x12\x34\x56\x78\x90\xAA', 2)) # (addr, vl, bus)
-        if self.frame % 20 == 0:
-          can_sends.append(toyotacan.create_feedback_message(self.packer, pcm_accel_cmd))
+
+        can_sends.append(toyotacan.create_feedback_message(self.packer, pcm_accel_cmd))
 
 
         print(debug_text)
