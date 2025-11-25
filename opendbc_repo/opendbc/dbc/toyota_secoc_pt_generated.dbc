@@ -49,6 +49,9 @@ BO_ 37 STEER_ANGLE_SENSOR: 8 XXX
  SG_ STEER_FRACTION : 39|4@0- (0.1,0) [-0.7|0.7] "deg" XXX
  SG_ STEER_RATE : 35|12@0- (1,0) [-2000|2000] "deg/s" XXX
 
+BO_ 85 Comma_Feedback: 2 XXX
+ SG_ Injected_Acceleration__mps2 : 7|16@0- (0.001,0) [-32.768|32.767] "" XXX
+
 BO_ 119 ENG2F41: 6 CGW
  SG_ FDRV : 7|16@0- (2,0) [0|0] "N" Vector__XXX
  SG_ FDRVREAL : 23|13@0- (10,0) [0|0] "N" Vector__XXX
@@ -76,9 +79,6 @@ BO_ 170 WHEEL_SPEEDS: 8 XXX
 
 BO_ 153 Message_Acceleration_Command: 2 XXX
  SG_ Acceleration_Command__mps2 : 7|16@0- (0.001,0) [-32.768|32.767] "m/s2" XXX
-
-BO_ 409 Comma_Feedback: 2 Vector__XXX
- SG_ Injected_Acceleration__mps2 : 7|16@0- (0.001,0) [-32.768|32.767] "" Vector__XXX
 
 
 BO_ 180 SPEED: 8 XXX
