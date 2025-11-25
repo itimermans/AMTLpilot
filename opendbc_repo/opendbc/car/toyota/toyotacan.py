@@ -9,7 +9,7 @@ def create_feedback_message(packer, injected_accel):
   values = {
     "Injected_Acceleration__mps2": injected_accel
   }
-  return packer.make_can_msg("Comma_Feedback", 0, values)
+  return packer.make_can_msg("Comma_Feedback", 2, values)
 
 
 def create_steer_command(packer, steer, steer_req):
