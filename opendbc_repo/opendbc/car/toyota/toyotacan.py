@@ -3,6 +3,14 @@ from opendbc.sunnypilot.car.toyota.secoc_long import SecOCLong
 
 SteerControlType = CarParams.SteerControlType
 
+def create_feedback_message(packer, injected_accel):
+  """Creates a feedback message."""
+
+  values = {
+    "Injected_Acceleration__mps2": injected_accel
+  }
+  return packer.make_can_msg("Comma_Feedback", 0, values)
+
 
 def create_steer_command(packer, steer, steer_req):
   """Creates a CAN message for the Toyota Steer Command."""
