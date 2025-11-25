@@ -339,6 +339,10 @@ class CarController(CarControllerBase, SecOCLongCarController, GasInterceptorCar
         if self.frame % fr_step == 0 and self.CP.carFingerprint in cars:
           can_sends.append(CanData(addr, vl, bus))
 
+    # AMT : Send message (addr, vl, bus)
+    if self.frame % 50 == 0: # (1/freq)*100
+      can_sends.append(CanData(0x199, b'\x12\x34\x56\x78\x90\xAA', 0)) # (addr, vl, bus)
+
     # keep radar disabled
     if self.frame % 20 == 0 and self.CP.flags & ToyotaFlags.DISABLE_RADAR.value:
       can_sends.append(make_tester_present_msg(0x750, 0, 0xF))
