@@ -1,0 +1,3 @@
+- DBC files where I can see the ACC message (0x343 = 0d835):  toyota_nodsu_pt_generated, toyota_new_mc_pt_generated, toyota_2017_ref_pt
+- Based on /data/openpilot/opendbc/car/toyota/values.py (line 157), likely toyota_nodsu_pt_generated', 'toyota_adas'
+- Danger: Line 164 has flag called NO_DSU
