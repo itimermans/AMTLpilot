@@ -374,7 +374,7 @@ struct CarState {
   struct ButtonEvent;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(9da4fa09e052903c, 11, 6)
+    CAPNP_DECLARE_STRUCT_HEADER(9da4fa09e052903c, 12, 6)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -1011,6 +1011,14 @@ public:
 
   inline float getAccelerationCommand() const;
 
+  inline bool getArgoLeadValid() const;
+
+  inline float getArgoLeadDRel() const;
+
+  inline float getArgoLeadVLead() const;
+
+  inline float getArgoLeadALead() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -1247,6 +1255,18 @@ public:
 
   inline float getAccelerationCommand();
   inline void setAccelerationCommand(float value);
+
+  inline bool getArgoLeadValid();
+  inline void setArgoLeadValid(bool value);
+
+  inline float getArgoLeadDRel();
+  inline void setArgoLeadDRel(float value);
+
+  inline float getArgoLeadVLead();
+  inline void setArgoLeadVLead(float value);
+
+  inline float getArgoLeadALead();
+  inline void setArgoLeadALead(float value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -5283,6 +5303,62 @@ inline float CarState::Builder::getAccelerationCommand() {
 inline void CarState::Builder::setAccelerationCommand(float value) {
   _builder.setDataField<float>(
       ::capnp::bounded<20>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool CarState::Reader::getArgoLeadValid() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<371>() * ::capnp::ELEMENTS);
+}
+
+inline bool CarState::Builder::getArgoLeadValid() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<371>() * ::capnp::ELEMENTS);
+}
+inline void CarState::Builder::setArgoLeadValid(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<371>() * ::capnp::ELEMENTS, value);
+}
+
+inline float CarState::Reader::getArgoLeadDRel() const {
+  return _reader.getDataField<float>(
+      ::capnp::bounded<21>() * ::capnp::ELEMENTS);
+}
+
+inline float CarState::Builder::getArgoLeadDRel() {
+  return _builder.getDataField<float>(
+      ::capnp::bounded<21>() * ::capnp::ELEMENTS);
+}
+inline void CarState::Builder::setArgoLeadDRel(float value) {
+  _builder.setDataField<float>(
+      ::capnp::bounded<21>() * ::capnp::ELEMENTS, value);
+}
+
+inline float CarState::Reader::getArgoLeadVLead() const {
+  return _reader.getDataField<float>(
+      ::capnp::bounded<22>() * ::capnp::ELEMENTS);
+}
+
+inline float CarState::Builder::getArgoLeadVLead() {
+  return _builder.getDataField<float>(
+      ::capnp::bounded<22>() * ::capnp::ELEMENTS);
+}
+inline void CarState::Builder::setArgoLeadVLead(float value) {
+  _builder.setDataField<float>(
+      ::capnp::bounded<22>() * ::capnp::ELEMENTS, value);
+}
+
+inline float CarState::Reader::getArgoLeadALead() const {
+  return _reader.getDataField<float>(
+      ::capnp::bounded<23>() * ::capnp::ELEMENTS);
+}
+
+inline float CarState::Builder::getArgoLeadALead() {
+  return _builder.getDataField<float>(
+      ::capnp::bounded<23>() * ::capnp::ELEMENTS);
+}
+inline void CarState::Builder::setArgoLeadALead(float value) {
+  _builder.setDataField<float>(
+      ::capnp::bounded<23>() * ::capnp::ELEMENTS, value);
 }
 
 inline float CarState::WheelSpeeds::Reader::getFl() const {

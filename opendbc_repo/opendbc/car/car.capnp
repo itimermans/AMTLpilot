@@ -160,6 +160,12 @@ struct CarState {
   # AMT : Add accelerationCommand
   accelerationCommand @60 :Float32;
 
+  # AMT :  ArgoPilot: synthetic lead injection. Dyno only.
+  argoLeadValid @61 :Bool;
+  argoLeadDRel  @62 :Float32;   # m, to front bumper
+  argoLeadVLead @63 :Float32;   # m/s, absolute
+  argoLeadALead @64 :Float32;   # m/s^2
+
   # CAN health
   canValid @26 :Bool;       # invalid counter/checksums
   canTimeout @40 :Bool;     # CAN bus dropped out

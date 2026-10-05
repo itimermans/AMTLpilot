@@ -242,6 +242,24 @@ class RadarD:
       self.radar_state.leadOne = get_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, low_speed_override=True)
       self.radar_state.leadTwo = get_lead(self.v_ego, self.ready, self.tracks, leads_v3[1], model_v_ego, low_speed_override=False)
 
+    # AMT : Argopilot
+    # ---- ArgoPilot synthetic lead (dyno only) ----
+    cs = sm['carState']
+    if cs.argoLeadValid:
+      self.radar_state.leadOne = {
+        "dRel":         float(cs.argoLeadDRel),
+        "yRel":         0.0,
+        "vRel":         float(cs.argoLeadVLead) - self.v_ego,
+        "vLead":        float(cs.argoLeadVLead),
+        "vLeadK":       float(cs.argoLeadVLead),
+        "aLeadK":       float(cs.argoLeadALead),
+        "aLeadTau":     0.3,
+        "modelProb":    1.0,
+        "status":       True,
+        "radar":        False,
+        "radarTrackId": -1,
+      }
+
   def publish(self, pm: messaging.PubMaster):
     assert self.radar_state is not None
 

@@ -18,6 +18,9 @@ BUTTONS_DICT = {CruiseButtons.RES_ACCEL: ButtonType.accelCruise, CruiseButtons.D
                 CruiseButtons.MAIN: ButtonType.mainCruise, CruiseButtons.CANCEL: ButtonType.cancel}
 SETTINGS_BUTTONS_DICT = {CruiseSettings.DISTANCE: ButtonType.gapAdjustCruise, CruiseSettings.LKAS: ButtonType.lkas}
 
+# AMT : ArgoPilot: CAN bus the dyno lead injector transmits on. 0, 1 or 2.
+ARGO_LEAD_BUS = 0
+
 
 def get_can_messages(CP, gearbox_msg):
   messages = [
@@ -117,6 +120,13 @@ class CarState(CarStateBase):
       cp_body = can_parsers[Bus.body]
 
     ret = structs.CarState()
+
+    # ArgoPilot: synthetic lead from the dyno injector
+    argo = can_parsers[Bus.alt].vl["ARGO_LEAD_INJECT"]
+    ret.argoLeadValid = bool(argo["ARGO_LEAD_VALID"])
+    ret.argoLeadDRel  = float(argo["ARGO_LEAD_DREL"])
+    ret.argoLeadVLead = float(argo["ARGO_LEAD_VLEAD"])
+    ret.argoLeadALead = float(argo["ARGO_LEAD_ALEAD"])
 
     # car params
     v_weight_v = [0., 1.]  # don't trust smooth speed at low values to avoid premature zero snapping
@@ -314,5 +324,8 @@ class CarState(CarStateBase):
     }
     if CP.enableBsm:
       parsers[Bus.body] = CANParser(DBC[CP.carFingerprint][Bus.body], body_messages, CanBus(CP).radar)
+
+    parsers[Bus.alt] = CANParser(DBC[CP.carFingerprint][Bus.pt], [("ARGO_LEAD_INJECT", 50)], ARGO_LEAD_BUS)
+
 
     return parsers
