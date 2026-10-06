@@ -115,7 +115,10 @@ class LongitudinalPlanner:
 
     if self.mpc.mode == 'acc':
       accel_clip = [ACCEL_MIN, get_max_accel(v_ego)]
-      steer_angle_without_offset = sm['carState'].steeringAngleDeg - sm['liveParameters'].angleOffsetDeg
+      # AMT : Argopilot : Avoid acceleration reduction due to steering
+      # steer_angle_without_offset = sm['carState'].steeringAngleDeg - sm['liveParameters'].angleOffsetDeg
+      steer_angle_without_offset = 0.0   # AMT Argopilot: no cornering on a dyno
+
       accel_clip = limit_accel_in_turns(v_ego, steer_angle_without_offset, accel_clip, self.CP)
     else:
       accel_clip = [ACCEL_MIN, ACCEL_MAX]
