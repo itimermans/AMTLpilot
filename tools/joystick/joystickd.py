@@ -48,14 +48,19 @@ def joystickd_thread():
     #   joystick_axes = [0.0, 0.0]
 
 
+    # OLD FROM TESLA - ERASE IF NOT NEEDED
+    # if CC.longActive:
+    #   accelerationCommand = sm['carState'].accelerationCommand
+    #   #actuators.accel = 4.0 * np.clip(joystick_axes[0], -1, 1)
+    #   if sm['carState'].standstill:
+    #     actuators.accel = float(np.clip(accelerationCommand,0,3))
+    #   else:
+    #     actuators.accel = float(np.clip(accelerationCommand,-3.5,3))
 
     if CC.longActive:
       accelerationCommand = sm['carState'].accelerationCommand
-      #actuators.accel = 4.0 * np.clip(joystick_axes[0], -1, 1)
-      if sm['carState'].standstill:
-        actuators.accel = float(np.clip(accelerationCommand,0,3))
-      else:
-        actuators.accel = float(np.clip(accelerationCommand,-3.5,3))
+      actuators.accel = float(np.clip(accelerationCommand, -3.5, 2.0))
+
 
 
 

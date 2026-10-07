@@ -11,6 +11,8 @@ from opendbc.car.honda.values import CAR, DBC, STEER_THRESHOLD, HONDA_BOSCH, HON
                                                  HondaFlags, CruiseButtons, CruiseSettings, GearShifter
 from opendbc.car.interfaces import CarStateBase
 
+
+
 TransmissionType = structs.CarParams.TransmissionType
 ButtonType = structs.CarState.ButtonEvent.Type
 
@@ -121,12 +123,13 @@ class CarState(CarStateBase):
 
     ret = structs.CarState()
 
-    # ArgoPilot: synthetic lead from the dyno injector
-    argo = can_parsers[Bus.alt].vl["ARGO_LEAD_INJECT"]
-    ret.argoLeadValid = bool(argo["ARGO_LEAD_VALID"])
-    ret.argoLeadDRel  = float(argo["ARGO_LEAD_DREL"])
-    ret.argoLeadVLead = float(argo["ARGO_LEAD_VLEAD"])
-    ret.argoLeadALead = float(argo["ARGO_LEAD_ALEAD"])
+    #AMT :  ArgoPilot: unified dyno command message (0x99). dRel == 0 means "no lead".
+    argo = can_parsers[Bus.alt].vl["ARGO_COMMAND"]
+    ret.accelerationCommand = float(argo["ARGO_ACCEL_CMD"])
+    ret.argoLeadDRel        = float(argo["ARGO_DREL"])
+    ret.argoLeadVLead       = float(argo["ARGO_VLEAD"])
+    ret.argoLeadALead       = float(argo["ARGO_ALEAD"])
+
 
     # car params
     v_weight_v = [0., 1.]  # don't trust smooth speed at low values to avoid premature zero snapping
@@ -325,7 +328,14 @@ class CarState(CarStateBase):
     if CP.enableBsm:
       parsers[Bus.body] = CANParser(DBC[CP.carFingerprint][Bus.body], body_messages, CanBus(CP).radar)
 
-    parsers[Bus.alt] = CANParser(DBC[CP.carFingerprint][Bus.pt], [("ARGO_LEAD_INJECT", 50)], ARGO_LEAD_BUS)
+    # AMT : Argopilot : Unified override command
+
+    # The two messages:
+    parsers[Bus.alt] = CANParser(DBC[CP.carFingerprint][Bus.pt],
+                              [("ARGO_COMMAND", 50)],
+                              ARGO_LEAD_BUS)
+
+
 
 
     return parsers
